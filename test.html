@@ -88,25 +88,34 @@
     }
   }
 
-  function startRecording() {
-    const stream = videoElement.captureStream();
-    const mediaRecorder = new MediaRecorder(stream);
-    const socket = new WebSocket('wss://heroku-backend-server.onrender.com');
-
-    socket.addEventListener('open', () => {
-      mediaRecorder.start(1000); // Collect 1 second of data
-    });
-
-    mediaRecorder.ondataavailable = function(event) {
-      if (event.data.size > 0 && socket.readyState === WebSocket.OPEN) {
-        socket.send(event.data);
-      }
-    };
-
-    mediaRecorder.onstop = function() {
-      socket.close();
-    };
+  async function startRecording() {
+  let stream;
+  if (videoElement.captureStream) {
+    stream = videoElement.captureStream();
+  } else if (navigator.mediaDevices.getDisplayMedia) {
+    stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+  } else {
+    console.error('captureStream and getDisplayMedia not supported');
+    return;
   }
+
+  const mediaRecorder = new MediaRecorder(stream);
+  const socket = new WebSocket('wss://your-backend-server.onrender.com');
+
+  socket.addEventListener('open', () => {
+    mediaRecorder.start(1000); // Collect 1 second of data
+  });
+
+  mediaRecorder.ondataavailable = function(event) {
+    if (event.data.size > 0 && socket.readyState === WebSocket.OPEN) {
+      socket.send(event.data);
+    }
+  };
+
+  mediaRecorder.onstop = function() {
+    socket.close();
+  };
+}
 </script>
 </body>
 </html>
