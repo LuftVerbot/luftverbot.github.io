@@ -43,7 +43,6 @@
         '1c167eea914f456e1dc4b9dbf18cbfa0': '7f013f5750a75e4a9282eb0fdd031eac'
       }
     }
-    // Add more streams if needed
   };
 
   let player;
@@ -57,11 +56,8 @@
 
   async function initPlayer() {
     player = new shaka.Player(videoElement);
-
     window.player = player;
-
     player.addEventListener('error', onErrorEvent);
-
     await changeStream('stream1');
   }
 
@@ -85,10 +81,31 @@
     try {
       await player.load(selectedStream.url);
       console.log('The video has now been loaded!');
+      startRecording();
       videoElement.play();
     } catch (error) {
       onError(error);
     }
+  }
+
+  function startRecording() {
+    const stream = videoElement.captureStream();
+    const mediaRecorder = new MediaRecorder(stream);
+    const socket = new WebSocket('wss://heroku-backend-server.onrender.com');
+
+    socket.addEventListener('open', () => {
+      mediaRecorder.start(1000); // Collect 1 second of data
+    });
+
+    mediaRecorder.ondataavailable = function(event) {
+      if (event.data.size > 0 && socket.readyState === WebSocket.OPEN) {
+        socket.send(event.data);
+      }
+    };
+
+    mediaRecorder.onstop = function() {
+      socket.close();
+    };
   }
 </script>
 </body>
