@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shaka Player Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.2.0/shaka-player.compiled.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+    .player-container {
+      text-align: center;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    video {
+      width: 100%;
+      max-width: 640px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="player-container">
+  <video id="video" controls></video>
+</div>
+<script>
+  shaka.polyfill.installAll();
+
+  const streams = {
+    stream1: {
+      url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayer/live/eurosport/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+      keys: {
+        '1c167eea914f456e1dc4b9dbf18cbfa0': '7f013f5750a75e4a9282eb0fdd031eac'
+      }
+    }
+    // Add more streams if needed
+  };
+
+  let player;
+  const videoElement = document.getElementById('video');
+
+  if (shaka.Player.isBrowserSupported()) {
+    initPlayer();
+  } else {
+    console.error('Browser not supported!');
+  }
+
+  async function initPlayer() {
+    player = new shaka.Player(videoElement);
+
+    window.player = player;
+
+    player.addEventListener('error', onErrorEvent);
+
+    await changeStream('stream1');
+  }
+
+  function onErrorEvent(event) {
+    onError(event.detail);
+  }
+
+  function onError(error) {
+    console.error('Error code', error.code, 'object', error);
+  }
+
+  async function changeStream(streamKey) {
+    const selectedStream = streams[streamKey];
+
+    player.configure({
+      drm: {
+        clearKeys: selectedStream.keys
+      }
+    });
+
+    try {
+      await player.load(selectedStream.url);
+      console.log('The video has now been loaded!');
+      videoElement.play();
+    } catch (error) {
+      onError(error);
+    }
+  }
+</script>
+</body>
+</html>
