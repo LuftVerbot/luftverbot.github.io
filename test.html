@@ -100,7 +100,7 @@
   }
 
   const mediaRecorder = new MediaRecorder(stream);
-  const socket = new WebSocket('wss://your-backend-server.onrender.com');
+  const socket = new WebSocket('wss://heroku-backend-server.onrender.com');
 
   socket.addEventListener('open', () => {
     mediaRecorder.start(1000); // Collect 1 second of data
