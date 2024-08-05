@@ -2,7 +2,7 @@ version: v1.0
 name: Update Data
 agent:
   machine:
-    type: e1-standard
+    type: e1-small
     os_image: ubuntu20.04
 blocks:
   - name: Install Dependencies
