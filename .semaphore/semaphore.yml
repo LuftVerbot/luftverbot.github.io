@@ -5,43 +5,32 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: Install Dependencies
+  - name: Install Dependencies and Update Data
     task:
       prologue:
         commands:
           - checkout
           - cache restore node-modules-$(checksum package-lock.json)
+          - nvm install 14
+          - nvm use 14
       jobs:
         - name: Install Node.js and dependencies
           commands:
-            - checkout
-            - cache restore node-modules-$(checksum package-lock.json)
-            - nvm install 14
-            - nvm use 14
             - npm ci
+        - name: Run Data Fetch Script
+          commands:
+            - node fetch_data.mjs
       epilogue:
         always:
           commands:
             - cache store node-modules-$(checksum package-lock.json) node_modules
-  - name: Update Data
-    task:
-      prologue:
-        commands:
-          - checkout
-          - cache restore node-modules-$(checksum package-lock.json)
-      jobs:
-        - name: Run Data Fetch Script
-          commands:
-            - nvm install 14
-            - nvm use 14
-            - node fetch_data.mjs
   - name: Commit and Push Changes
     task:
       prologue:
         commands:
           - checkout
       jobs:
-        - name: Configure Git
+        - name: Configure Git and Commit Changes
           commands:
             - git config --global user.name "semaphoreci"
             - git config --global user.email "semaphoreci@semaphoreci.com"
