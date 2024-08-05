@@ -9,8 +9,8 @@ fetch(url)
         const firstPrice = data.price[0];
         const payload = {
             frames: [{
-                text: `Price: €${firstPrice}`,
-                icon: "i555"
+                text: `${firstPrice}€`,
+                icon: "4372"
             }]
         };
         writeFileSync('data.json', JSON.stringify(payload, null, 2));

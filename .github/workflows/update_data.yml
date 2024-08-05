@@ -2,7 +2,7 @@ name: Update Data
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
+    - cron: '*/15 * * * *'  # Runs every 15 minutes
   push:
     branches:
       - main
@@ -27,4 +27,3 @@ jobs:
           git add data.json
           git commit -m 'Update data.json'
           git push https://x-access-token:${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
-        
