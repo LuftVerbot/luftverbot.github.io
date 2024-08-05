@@ -24,6 +24,6 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add data.json
+          git add data.json package-lock.json
           git commit -m 'Update data.json'
           git push https://x-access-token:${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
