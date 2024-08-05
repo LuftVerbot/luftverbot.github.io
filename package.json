@@ -1,0 +1,12 @@
+{
+  "name": "luftverbot.github.io",
+  "version": "1.0.0",
+  "description": "My Website",
+  "main": "fetch_data.mjs",
+  "scripts": {
+    "start": "node fetch_data.mjs"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

@@ -22,7 +22,7 @@ jobs:
       - name: Cache Node.js modules
         uses: actions/cache@v2
         with:
-          path: node_modules
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -35,6 +35,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git diff --exit-code || git commit -am 'Update data.json' && git push https://x-access-token:${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
+          git add data.json package-lock.json
+          git diff --cached --exit-code || git commit -m 'Update data.json' && git push https://x-access-token:${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
