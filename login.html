@@ -41,7 +41,7 @@
         }
     </style>
     <script>
-        const encryptedPassword = "U2FsdGVkX1/GNNBLVX83w9t5IPQmG9e/YiENRGwifvw="; // Replace with your actual encrypted password
+        const encryptedPassword = "U2FsdGVkX1+WlMo01IU5OdM/5FUBI4lNix3jFHdr8Rk="; // Replace with your actual encrypted password
 
         function decryptPassword(encryptedPassword, secretKey) {
             try {
@@ -54,16 +54,15 @@
 
         function login() {
             const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
             const secretKey = document.getElementById('secret-key').value;
 
             const decryptedPassword = decryptPassword(encryptedPassword, secretKey);
 
-            if (username === 'user' && password === decryptedPassword) {
+            if (username === 'user' && 'lol' === decryptedPassword) {
                 localStorage.setItem('loggedIn', 'true');
                 window.location.href = 'index.html';
             } else {
-                alert('Incorrect username, password, or secret key');
+                alert('Incorrect username or secret key');
             }
         }
 
@@ -78,7 +77,6 @@
 <div class="login-container">
     <h2>Login</h2>
     <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
     <input type="password" id="secret-key" placeholder="Secret Key">
     <button onclick="login()">Login</button>
 </div>
