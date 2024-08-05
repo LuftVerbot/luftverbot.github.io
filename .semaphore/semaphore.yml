@@ -3,7 +3,7 @@ name: Update Data
 agent:
   machine:
     type: e1-standard
-    os_image: ubuntu2004
+    os_image: ubuntu20.04
 blocks:
   - name: Install Dependencies
     task:
@@ -14,7 +14,10 @@ blocks:
       jobs:
         - name: Install Node.js and dependencies
           commands:
+            - checkout
+            - cache restore node-modules-$(checksum package-lock.json)
             - nvm install 14
+            - nvm use 14
             - npm ci
       epilogue:
         always:
