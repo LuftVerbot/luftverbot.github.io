@@ -4,6 +4,19 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
+auto_promotions:
+  - name: On Schedule
+    pipeline_file: .semaphore/semaphore.yml
+    promotion_rules:
+      - result: finished
+    schedule:
+      - '*/5 * * * *'
+  - name: On Push
+    pipeline_file: .semaphore/semaphore.yml
+    promotion_rules:
+      - result: finished
+        branch:
+          - main
 blocks:
   - name: Install Dependencies
     task:
@@ -43,15 +56,3 @@ blocks:
             - git config --global user.email "semaphoreci@semaphoreci.com"
             - git add data.json package-lock.json
             - 'git diff --cached --exit-code || git commit -m "Update data.json" && git push https://x-access-token:${{SEMAPHORE_GITHUB_TOKEN}}@github.com/${{SEMAPHORE_PROJECT_USERNAME}}/${{SEMAPHORE_PROJECT_REPONAME}}.git'
-promotions:
-  - name: On Schedule
-    pipeline_file: .semaphore/semaphore.yml
-    auto_promote_on:
-      - result: finished
-    schedule: '*/5 * * * *'
-  - name: On Push
-    pipeline_file: .semaphore/semaphore.yml
-    auto_promote_on:
-      - result: finished
-        branch:
-          - main
