@@ -47,9 +47,10 @@ promotions:
   - name: On Schedule
     pipeline_file: .semaphore/semaphore.yml
     auto_promote_on:
-      - schedule: '*/5 * * * *'
+      - result: finished
+        schedule: '*/5 * * * *'
   - name: On Push
     pipeline_file: .semaphore/semaphore.yml
     auto_promote_on:
-      - event: push
+      - result: finished
         branch: main
