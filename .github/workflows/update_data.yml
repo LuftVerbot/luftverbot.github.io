@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm install node-fetch
-      - run: node fetch_data.js
+      - run: node fetch_data.mjs
       - name: Commit and push changes
         run: |
           git config --global user.name 'github-actions'
