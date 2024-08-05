@@ -32,7 +32,9 @@ blocks:
       jobs:
         - name: Run Data Fetch Script
           commands:
-            - nvm install 14 - nvm use 14 - node fetch_data.mjs
+            - nvm install 14
+            - nvm use 14
+            - node fetch_data.mjs
   - name: Commit and Push Changes
     task:
       prologue:
