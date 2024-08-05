@@ -19,11 +19,12 @@ jobs:
       - run: npm install node-fetch
       - run: node fetch_data.mjs
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add data.json
           git commit -m 'Update data.json'
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        
