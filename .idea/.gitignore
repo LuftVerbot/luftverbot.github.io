@@ -1,6 +1,6 @@
 # Default ignored files
+node_modules/
 /shelf/
 /workspace.xml
 /discord.xml
 /vcs.xml
-node_modules/
