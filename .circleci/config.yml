@@ -1,0 +1,69 @@
+version: 2.1
+
+executors:
+  node-executor:
+    docker:
+      - image: circleci/node:14
+
+jobs:
+  install-dependencies:
+    executor: node-executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install npm dependencies
+          command: npm install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+
+  fetch-data:
+    executor: node-executor
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+      - run:
+          name: Run fetch_data.mjs
+          command: node fetch_data.mjs
+
+  commit-and-push:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Configure git
+          command: |
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@github.com"
+      - run:
+          name: Commit and push changes
+          command: |
+            git add data.json package-lock.json
+            git diff --cached --exit-code || git commit -m 'Update data.json'
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git
+
+workflows:
+  version: 2
+  install-fetch-commit:
+    triggers:
+      - schedule:
+          cron: "*/5 * * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - install-dependencies
+      - fetch-data:
+          requires:
+            - install-dependencies
+      - commit-and-push:
+          requires:
+            - fetch-data
