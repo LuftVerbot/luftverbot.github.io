@@ -1,0 +1,55 @@
+version: v1.0
+name: Update Data
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Install Dependencies
+    task:
+      prologue:
+        commands:
+          - checkout
+          - cache restore node-modules-$(checksum package-lock.json)
+      jobs:
+        - name: Install Node.js and dependencies
+          commands:
+            - nvm install 14
+            - npm ci
+      epilogue:
+        always:
+          commands:
+            - cache store node-modules-$(checksum package-lock.json) node_modules
+  - name: Update Data
+    task:
+      prologue:
+        commands:
+          - checkout
+          - cache restore node-modules-$(checksum package-lock.json)
+      jobs:
+        - name: Run Data Fetch Script
+          commands:
+            - nvm use 14
+            - node fetch_data.mjs
+  - name: Commit and Push Changes
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Configure Git
+          commands:
+            - git config --global user.name "semaphoreci"
+            - git config --global user.email "semaphoreci@semaphoreci.com"
+            - git add data.json package-lock.json
+            - 'git diff --cached --exit-code || git commit -m "Update data.json" && git push https://x-access-token:${{SEMAPHORE_GITHUB_TOKEN}}@github.com/${{SEMAPHORE_PROJECT_USERNAME}}/${{SEMAPHORE_PROJECT_REPONAME}}.git'
+promotions:
+  - name: On Schedule
+    pipeline_file: .semaphore/semaphore.yml
+    auto_promote_on:
+      - schedule: '*/5 * * * *'
+  - name: On Push
+    pipeline_file: .semaphore/semaphore.yml
+    auto_promote_on:
+      - event: push
+        branch: main
