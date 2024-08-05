@@ -2,8 +2,8 @@ version: v1.0
 name: Update Data
 agent:
   machine:
-    type: e1-standard
-    os_image: ubuntu20.04
+    type: e1-standard-2
+    os_image: ubuntu2004
 blocks:
   - name: Install Dependencies
     task:
@@ -32,8 +32,7 @@ blocks:
       jobs:
         - name: Run Data Fetch Script
           commands:
-            - nvm use 14
-            - node fetch_data.mjs
+            - nvm install 14 - nvm use 14 - node fetch_data.mjs
   - name: Commit and Push Changes
     task:
       prologue:
