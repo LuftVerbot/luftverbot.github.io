@@ -38,7 +38,7 @@ blocks:
           commands:
             - nvm install 14
             - nvm use 14
-            - 'if [ -d "node_modules" ]; then npm ci | npm install; fi'
+            - 'if [ -d "node_modules" ]; then npm ci; else npm install; fi'
             - node fetch_data.mjs
   - name: Commit and Push Changes
     task:
