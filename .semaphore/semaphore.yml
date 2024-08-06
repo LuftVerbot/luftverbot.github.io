@@ -11,10 +11,11 @@ blocks:
         commands:
           - checkout
           - cache restore $(checksum package-lock.json)
+          - cache restore $(checksum .nvmrc)
       jobs:
         - name: 'Install Node.js, Fetch Data, and Commit Changes'
           commands:
-            - nvm install 14
+            - 'if [ -d ".nvmrc" ]; then nvm install 14; fi'
             - nvm use 14
             - 'if [ -d "node_modules" ]; then npm ci; else npm install; fi'
             - node fetch_data.mjs
