@@ -50,9 +50,7 @@ blocks:
       jobs:
         - name: Configure Git and Commit Changes
           commands:
-            - git config --global user.name "semaphoreci"
-            - git config --global user.email "semaphoreci@semaphoreci.com"
-            - 'git remote set-url origin https://x-access-token:${{GITHUB_TOKEN}}@github.com/${SEMAPHORE_PROJECT_USERNAME}/${SEMAPHORE_PROJECT_REPONAME}.git'
+            - 'git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${SEMAPHORE_PROJECT_USERNAME}/${SEMAPHORE_PROJECT_REPONAME}.git'
             - git remote -v
             - git add data.json package-lock.json
             - git diff --cached --exit-code || git commit -m "Update data.json"
