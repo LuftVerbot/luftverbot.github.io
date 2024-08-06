@@ -22,6 +22,7 @@ blocks:
             - nvm use 14
             - 'if [ -d "node_modules" ]; then npm ci; else npm install; fi'
             - node fetch_data.mjs
+            - cat data.json
             - git config --global user.name "semaphoreci"
             - git config --global user.email "semaphoreci@semaphoreci.com"
             - git add data.json package-lock.json
