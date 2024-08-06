@@ -42,6 +42,7 @@ blocks:
             - nvm use 14
             - npm install
             - node fetch_data.mjs
+            - cat data.json
   - name: Commit and Push Changes
     task:
       prologue:
@@ -50,10 +51,11 @@ blocks:
       jobs:
         - name: Configure Git and Commit Changes
           commands:
+            - git config --global user.email "you@example.com"
+            - git config --global user.name "Your Name"
             - git add data.json package-lock.json
+            - git status
             - git diff --cached --exit-code || git commit -m "Update data.json"
             - 'git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git"'
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
-        - name: SEMAPHORE_PROJECT_REPONAME
-        - name: SEMAPHORE_PROJECT_USERNAME
