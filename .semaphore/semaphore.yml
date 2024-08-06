@@ -5,7 +5,7 @@ agent:
     type: f1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: Install Dependencies
+  - name: 'Install, Update Data, and Commit'
     task:
       prologue:
         commands:
@@ -13,44 +13,23 @@ blocks:
           - cache restore nvm-cache-$(checksum .nvmrc) .nvm
           - cache restore node-modules-$(checksum package-lock.json) node_modules
       jobs:
-        - name: Install Node.js and dependencies
+        - name: 'Install Node.js, Fetch Data, and Commit Changes'
           commands:
             - 'if [ ! -d "$HOME/.nvm" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash; fi'
             - export NVM_DIR="$HOME/.nvm"
             - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
             - nvm install 14
             - nvm use 14
-            - npm ci
+            - 'if [ -d "node_modules" ]; then npm ci; else npm install; fi'
+            - node fetch_data.mjs
+            - git config --global user.name "semaphoreci"
+            - git config --global user.email "semaphoreci@semaphoreci.com"
+            - git fetch origin
+            - 'git diff origin/main data.json || (git add data.json package-lock.json && git commit -m "Update data.json" && git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git")'
       epilogue:
         always:
           commands:
             - cache store nvm-cache-$(checksum .nvmrc) .nvm
             - cache store node-modules-$(checksum package-lock.json) node_modules
-  - name: Update Data
-    task:
-      prologue:
-        commands:
-          - checkout
-          - cache restore nvm-cache-$(checksum .nvmrc) .nvm
-          - cache restore node-modules-$(checksum package-lock.json) node_modules
-      jobs:
-        - name: Run Data Fetch Script
-          commands:
-            - nvm install 14
-            - nvm use 14
-            - 'if [ -d "node_modules" ]; then npm ci; else npm install; fi'
-            - node fetch_data.mjs
-  - name: Commit and Push Changes
-    task:
-      prologue:
-        commands:
-          - checkout
-      jobs:
-        - name: 'Configure Git, Compare Files, and Commit Changes'
-          commands:
-            - git config --global user.name "semaphoreci"
-            - git config --global user.email "semaphoreci@semaphoreci.com"
-            - git fetch origin
-            - 'git diff origin/main data.json || (git add data.json package-lock.json && git commit -m "Update data.json" && git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git")'
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
