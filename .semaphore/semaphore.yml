@@ -53,10 +53,13 @@ blocks:
           commands:
             - git config --global user.name "semaphoreci"
             - git config --global user.email "semaphoreci@semaphoreci.com"
-            - git add data.json package-lock.json
             - git status
+            - git ls-files --error-unmatch data.json || echo "data.json is not tracked"
+            - git ls-files --error-unmatch package-lock.json || echo "package-lock.json is not tracked"
+            - git diff data.json package-lock.json
+            - git add -v data.json package-lock.json
             - git diff --cached
-            - git commit -m "Update data.json"
+            - git commit -v -m "Update data.json"
             - 'git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git"'
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
