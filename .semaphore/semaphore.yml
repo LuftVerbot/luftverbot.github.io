@@ -15,9 +15,9 @@ blocks:
       jobs:
         - name: Install Node.js and dependencies
           commands:
-            - if [ ! -d "$HOME/.nvm" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash; fi
+            - 'if [ ! -d "$HOME/.nvm" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash; fi'
             - export NVM_DIR="$HOME/.nvm"
-            - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
             - nvm install 14
             - nvm use 14
             - npm ci
@@ -26,7 +26,6 @@ blocks:
           commands:
             - cache store nvm-cache-$(checksum .nvmrc) .nvm
             - cache store node-modules-$(checksum package-lock.json) node_modules
-
   - name: Update Data
     task:
       prologue:
@@ -38,10 +37,9 @@ blocks:
         - name: Run Data Fetch Script
           commands:
             - export NVM_DIR="$HOME/.nvm"
-            - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
             - nvm use 14
             - node fetch_data.mjs
-
   - name: Commit and Push Changes
     task:
       prologue:
@@ -53,4 +51,4 @@ blocks:
             - git config --global user.name "semaphoreci"
             - git config --global user.email "semaphoreci@semaphoreci.com"
             - git add data.json package-lock.json
-            - git diff --cached --exit-code || git commit -m "Update data.json" && git push https://x-access-token:${{SEMAPHORE_GITHUB_TOKEN}}@github.com/${{SEMAPHORE_PROJECT_USERNAME}}/${{SEMAPHORE_PROJECT_REPONAME}}.git
+            - 'git diff --cached --exit-code || git commit -m "Update data.json" && git push https://x-access-token:${{SEMAPHORE_GITHUB_TOKEN}}@github.com/${{SEMAPHORE_PROJECT_USERNAME}}/${{SEMAPHORE_PROJECT_REPONAME}}.git'
