@@ -42,7 +42,6 @@ blocks:
             - nvm use 14
             - npm install
             - node fetch_data.mjs
-            - 'if [ -f data.json ]; then cat data.json; else echo "data.json does not exist"; fi'
   - name: Commit and Push Changes
     task:
       prologue:
@@ -53,11 +52,7 @@ blocks:
           commands:
             - git config --global user.name "semaphoreci"
             - git config --global user.email "semaphoreci@semaphoreci.com"
-            - git status
-            - 'if [ -f data.json ]; then git add data.json; else echo "data.json does not exist, skipping git add"; fi'
-            - git add package-lock.json
-            - git diff --cached
-            - git commit -m "Update data.json"
-            - 'git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git"'
+            - git add data.json package-lock.json
+            - 'git diff --cached --exit-code || git commit -m ''Update data.json'' && git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git"'
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
