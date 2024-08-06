@@ -12,6 +12,9 @@ blocks:
           - checkout
           - cache restore $(checksum package-lock.json)
           - cache restore $(checksum .nvmrc)
+          - 'if [ ! -d "$HOME/.nvm" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash; fi'
+          - export NVM_DIR="$HOME/.nvm"
+          - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
       jobs:
         - name: 'Install Node.js, Fetch Data, and Commit Changes'
           commands:
