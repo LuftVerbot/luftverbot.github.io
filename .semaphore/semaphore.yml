@@ -46,11 +46,11 @@ blocks:
         commands:
           - checkout
       jobs:
-        - name: Configure Git and Commit Changes
+        - name: 'Configure Git, Compare Files, and Commit Changes'
           commands:
             - git config --global user.name "semaphoreci"
             - git config --global user.email "semaphoreci@semaphoreci.com"
-            - git add data.json package-lock.json
-            - 'git diff || git commit -m ''Update data.json'' && git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git"'
+            - git fetch origin
+            - 'git diff origin/main data.json || (git add data.json package-lock.json && git commit -m "Update data.json" && git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git")'
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
