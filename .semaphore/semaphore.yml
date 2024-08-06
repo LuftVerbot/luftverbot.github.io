@@ -15,10 +15,9 @@ blocks:
       jobs:
         - name: 'Install Node.js, Fetch Data, and Commit Changes'
           commands:
-            - 'if [ ! -d "$HOME/.nvm" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash; fi'
+            - 'if [ ! -d "$HOME/.nvm" ]; then nvm install 14 | bash; fi'
             - export NVM_DIR="$HOME/.nvm"
             - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
-            - nvm install 14
             - nvm use 14
             - 'if [ -d "node_modules" ]; then npm ci; else npm install; fi'
             - node fetch_data.mjs
