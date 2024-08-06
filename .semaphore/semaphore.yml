@@ -51,11 +51,9 @@ blocks:
       jobs:
         - name: Configure Git and Commit Changes
           commands:
-            - git config --global user.email "you@example.com"
-            - git config --global user.name "Your Name"
             - git add data.json package-lock.json
             - git status
-            - git diff --cached --exit-code || git commit -m "Update data.json"
+            - git commit -m "Update data.json"
             - 'git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git"'
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
