@@ -10,15 +10,15 @@ blocks:
       prologue:
         commands:
           - checkout
-          - cache restore $(checksum package-lock.json)
-          - cache restore $(checksum .nvm)
-          - 'if [ ! -d "$HOME/.nvm" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash; fi'
-          - export NVM_DIR="$HOME/.nvm"
-          - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+          - cache restore node-modules-$(checksum package-lock.json)
+          - cache restore nvm-cache
       jobs:
         - name: 'Install Node.js, Fetch Data, and Commit Changes'
           commands:
-            - 'if [ ! -d ".nvm" ]; then nvm install 14; fi'
+            - 'if [ ! -d "$HOME/.nvm" ]; then curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash; fi'
+            - export NVM_DIR="$HOME/.nvm"
+            - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+            - nvm install 14
             - nvm use 14
             - 'if [ -d "node_modules" ]; then npm ci; else npm install; fi'
             - node fetch_data.mjs
@@ -32,6 +32,6 @@ blocks:
         always:
           commands:
             - cache store node-modules-$(checksum package-lock.json) node_modules
-            - cache store nvm-$(checksum .nvm) $HOME/.nvm
+            - cache store nvm-cache $HOME/.nvm
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
