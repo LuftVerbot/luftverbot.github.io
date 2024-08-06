@@ -32,6 +32,6 @@ blocks:
         always:
           commands:
             - cache store node-modules-$(checksum package-lock.json) node_modules
-            - cache store nvm-$(checksum .nvmrc) $HOME/.nvm
+            - cache store nvm-$(checksum .nvm) $HOME/.nvm
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
