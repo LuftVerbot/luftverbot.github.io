@@ -73,6 +73,7 @@ async function fetchData() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Cookie': '__i=eyJraWQiOiJMOTlscmJoZE51Z3dJRzV0VjdMR3dDXC85VFFQYTl0VFRBWlwvK3hwQitaZVE9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJmZDQzOGE5MS01NzRhLTQ2ODItOTFkZS0zMTQ4M2Q5OGU4NGIiLCJjb2duaXRvOmdyb3VwcyI6WyJLdW5kZW4iXSwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX1c3WkRoM0FsMSIsInBob25lX251bWJlcl92ZXJpZmllZCI6dHJ1ZSwicHJtIjoie1wiNDUwMDY4OFwiOntcImFjY1wiOlwiNDUwMDY4ODAwOVwiLFwib3duZXJcIjp0cnVlLFwiZmlyc3ROYW1lXCI6XCJKZXJlbXkgQ2hyaXN0b3BoZXJcIixcImxhc3ROYW1lXCI6XCJOb3NhbFwiLFwiZGVwXCI6XCJLNDUwMDY4ODAwMVwifX0iLCJjb2duaXRvOnVzZXJuYW1lIjoiNTMzcTE4NSIsImF1ZCI6Ijc5bDUzcGRhdW8yb2Z2cG5pbGVoMThhbTJpIiwiZXZlbnRfaWQiOiJmMWUxMzViZi0xM2FmLTQ3ZTEtYWI1NC0wZDZlYjM3ZDZiMjgiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTcyMjk0MDcxNSwicGhvbmVfbnVtYmVyIjoiKzQ5MTc2MzQ0NTk1NDIiLCJleHAiOjE3MjI5NTA3NTMsImlhdCI6MTcyMjk0NzE1MywiZW1haWwiOiJqYXJlbWEuam5AZ21haWwuY29tIn0.KkAee0gHjJLKDKxDY5FMPYYBvSxdZv6f_gngTQSEXNZGETvOqlmVuM3ZTH-lqnHFDfte1J8kl1IXy5TNxt8eXALB0Za_QSmMKOOuBGL70h-1KGqwjbeABDNkECXI-0eUa4j5_34xV0_yppLdFAd4pt9DWUUXkY134XBcswipHeQLmkIbxk4hk4Mqq-oTqN3z8sk4L2Uic7ta1uUTK5STq6fGcDEVqgq7lMFm71Z__8vo6-pg6jgYgWjWXVcD659y3l-NTG2uOGnPRz5zgu6HnzHGyAO3aChXDols3SVgKQvbvdxpuE2OG9qSwb7iC3TFw3sqICaS191qcIwGglRz9Q'
+                }
             });
             const dataYesterday = await responseYesterday.json();
             const instrument = dataYesterday.instruments.find(inst => inst.isin === "CNE100000296");
@@ -100,7 +101,6 @@ async function fetchData() {
         };
 
         writeFileSync('data.json', JSON.stringify(payload, null, 2));
-
     } catch (error) {
         console.error('Error fetching data:', error);
     }
