@@ -1,0 +1,7 @@
+# Default ignored files
+node_modules/
+/shelf/
+*/.idea/workspace.xml
+*/discord.xml
+*/vcs.xml
+*/workspace.xml
