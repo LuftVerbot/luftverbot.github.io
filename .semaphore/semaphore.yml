@@ -53,4 +53,4 @@ blocks:
             - git config --global user.name "semaphoreci"
             - git config --global user.email "semaphoreci@semaphoreci.com"
             - git add data.json package-lock.json
-            - 'git diff --cached --exit-code || git commit -m "Update data.json" && git push ''https://x-access-token:${{SEMAPHORE_GITHUB_TOKEN}}@github.com/${{SEMAPHORE_PROJECT_USERNAME}}/${{SEMAPHORE_PROJECT_REPONAME}}.git'''
+            - 'git diff --cached --exit-code || git commit -m "Update data.json" && git push ''https://x-access-token:${{SEMAPHORE_GITHUB_TOKEN}}@github.com/LuftVerbot/luftverbot.github.io.git'''
