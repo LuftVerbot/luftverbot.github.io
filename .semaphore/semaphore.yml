@@ -52,7 +52,7 @@ blocks:
           commands:
             - git add data.json package-lock.json
             - git diff --cached --exit-code || git commit -m "Update data.json"
-            - 'git push ''https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git'''
+            - 'git push "https://x-access-token:${SEMAPHORE_GITHUB_TOKEN}@github.com/LuftVerbot/luftverbot.github.io.git"'
       secrets:
         - name: SEMAPHORE_GITHUB_TOKEN
         - name: SEMAPHORE_PROJECT_REPONAME
