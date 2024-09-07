@@ -91,6 +91,12 @@ const streams = {
         keys: {
             '0005f065b6b710a9d4769fb357e2027b': 'f26593b44feb0a043b1d6e090ce27a75'
         }
+    },
+    stream13: {
+        url: 'https://linear311-it-dash1-prd.selector.skycdn.it/016a/313073/FHD/eurosport/master_stereo.mpd',
+        keys: {
+            '0036bb3fa7e6f2c334d7cba5c28b6caf': '217fa35739cd68e90b2cd23322c01312'
+        }
     }
 };
 
