@@ -50,8 +50,8 @@
           border-radius: 5px;
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
           z-index: 99;
-          width: 100%;
-          max-height: 200px;
+          width: 94%;
+          max-height: 150px;
           overflow-y: auto;
         }
         .select-items div:hover, .same-as-selected {
