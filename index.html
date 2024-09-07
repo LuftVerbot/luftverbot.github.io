@@ -78,6 +78,7 @@
       <div onclick="changeStream('stream4')">Polsat Sport 2</div>
       <div onclick="changeStream('stream5')">TVP Sport</div>
       <div onclick="changeStream('stream6')">Polsat Sport Premium 1 Super HD</div>
+      <div onclick="changeStream('stream7')">Canal+ Sport5 HD</div>
     </div>
   </div>
   <div class="custom-select" id="qualitySelectContainer">
@@ -131,14 +132,22 @@
       url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/TVPSport/hd2-dashdrm02/TVPSport.mpd',
       keys: {
         '95620bdd974041409d4674ab629e22d4': 'c6c226ca1689f528a6f91e86da618f64',
-	'181c091002d04c5481c3faab18752843': 'b081b6169351e0f4bfc40212dfeeed10',
-	'1163925b6b37434198130f773bc62841': 'e2bdd2b87e1ddb502eb7898daece857f'
+	    '181c091002d04c5481c3faab18752843': 'b081b6169351e0f4bfc40212dfeeed10',
+	    '1163925b6b37434198130f773bc62841': 'e2bdd2b87e1ddb502eb7898daece857f'
       }
     },
     stream6: {
       url: 'https://cdn-s-lb2.pluscdn.pl/ch/1459449/266/dash/edb3b20d/live.mpd',
       keys: {
         '8eb4a9586edf4b0cade4b5725fd55209': '54caa4e2142cf691af9bb6028545afc6'
+      }
+    },
+    stream7: {
+      url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport5/hd2-dashdrm02/CplusSport5.mpd',
+      keys: {
+        '4cea0821d1824cafa0635743a6d97778': '924faa02e646007d6f84af2939792d85',
+	    'e5cd5fa487c941f08dc227b6b7d2ba34': '86acbf7a6443072a3df2619ed38d5729',
+	    'd8f713ce3f9443f7bdd07160d181d535': '54ef8a5499686d0c88be6ef84fc4267e'
       }
     }
   };
