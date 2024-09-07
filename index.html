@@ -79,6 +79,8 @@
       <div onclick="changeStream('stream5')">TVP Sport</div>
       <div onclick="changeStream('stream6')">Polsat Sport Premium 1 Super HD</div>
       <div onclick="changeStream('stream7')">Canal+ Sport5 HD</div>
+      <div onclick="changeStream('stream8')">Polsat Sport Fight</div>
+      <div onclick="changeStream('stream9')">Sky Sports Tennis</div>
     </div>
   </div>
   <div class="custom-select" id="qualitySelectContainer">
@@ -105,9 +107,9 @@
 
   const streams = {
     stream1: {
-      url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayer/live/eurosport/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+      url: 'https://cdn-s-lb2.pluscdn.pl/ch/1456336/126/dash/d6c12d19/live.mpd',
       keys: {
-        '1c167eea914f456e1dc4b9dbf18cbfa0': '7f013f5750a75e4a9282eb0fdd031eac'
+        'e87994b160bd48b5ac2f608ef5dc0f09': '26840f913d91ed7e355a8cc18b99adef'
       }
     },
     stream2: {
@@ -148,6 +150,18 @@
         '4cea0821d1824cafa0635743a6d97778': '924faa02e646007d6f84af2939792d85',
 	    'e5cd5fa487c941f08dc227b6b7d2ba34': '86acbf7a6443072a3df2619ed38d5729',
 	    'd8f713ce3f9443f7bdd07160d181d535': '54ef8a5499686d0c88be6ef84fc4267e'
+      }
+    },
+    stream8: {
+      url: 'https://lb2-e1-92.pluscdn.pl/ch/1455746/97/dash/0dd0a424/live.mpd',
+      keys: {
+        '39b61633fdd04e43a3485d3c5ddd1109': '6914f88aa49c2edeacc2c876a7fc108f'
+      }
+    },
+    stream9: {
+      url: 'https://linear014-gb-dash1-prd-ll.cdn.skycdp.com/Content/DASH_003_720_120/Live/channel(skysportstennis)/manifest_720.mpd',
+      keys: {
+        '00032023ad4896139b22a071d6c1183c': 'e0c6c1454bb792b843f085be9999c9da'
       }
     }
   };
