@@ -102,6 +102,20 @@ const streams = {
         keys: {
             '0036bb3fa7e6f2c334d7cba5c28b6caf': '217fa35739cd68e90b2cd23322c01312'
         }
+    },
+    stream15: {
+        name: 'Canal+ Sport2 HD',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_sport_2/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=1&dvr=7200000',
+        keys: {
+            '161535d1b35471c739e9e6a2e5b9e272': 'eff4686a6dabbb0ac88c685e14be12d9'
+        }
+    },
+    stream16: {
+        name: 'TNT Sports 1',
+        url: 'https://linear001-ie-dash1-prd-ak.cdn.skycdp.com/016a/Content/DASH_003_720_120/Live/channel(tntsport1)/manifest_720.mpd',
+        keys: {
+            '00051ad8db73a944abe9ec83ad88987b': '100c985696718d923c4b1289c1cf0d7d'
+        }
     }
 };
 
