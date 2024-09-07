@@ -81,6 +81,7 @@
       <div onclick="changeStream('stream7')">Canal+ Sport5 HD</div>
       <div onclick="changeStream('stream8')">Polsat Sport Fight</div>
       <div onclick="changeStream('stream9')">Sky Sports Tennis</div>
+      <div onclick="changeStream('stream10')">Eurosport 2 Italy</div>
     </div>
   </div>
   <div class="custom-select" id="qualitySelectContainer">
@@ -162,6 +163,12 @@
       url: 'https://linear014-gb-dash1-prd-ll.cdn.skycdp.com/Content/DASH_003_720_120/Live/channel(skysportstennis)/manifest_720.mpd',
       keys: {
         '00032023ad4896139b22a071d6c1183c': 'e0c6c1454bb792b843f085be9999c9da'
+      }
+    },
+    stream10: {
+      url: 'https://linear312-it-dash1-prd.selector.skycdn.it/016a/31150/FHD/eurosport2/master_stereo.mpd',
+      keys: {
+        '003670a7034342a4a07c91173818c61c': '7b90055c1a1ea34d9090e9ebf6c4db8a'
       }
     }
   };
