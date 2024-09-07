@@ -1,12 +1,3 @@
-// Login check on page load
-function checkLogin() {
-    if (localStorage.getItem('loggedIn') !== 'true') {
-        window.location.href = 'login.html';
-    }
-}
-
-window.onload = checkLogin;
-
 // Shaka Player initialization
 shaka.polyfill.installAll();
 const streams = {
