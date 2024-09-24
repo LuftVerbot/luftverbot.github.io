@@ -1,5 +1,6 @@
 // Shaka Player initialization
 shaka.polyfill.installAll();
+
 const streams = {
     stream1: {
         name: 'Eurosport 1',
@@ -30,6 +31,13 @@ const streams = {
         }
     },
     stream5: {
+        name: 'Polsat Sport 3',
+        url: 'https://cdn-s-lb2.pluscdn.pl/ch/1455832/117/dash/790ff37c/live.mpd',
+        keys: {
+            '03ddf71c8dae4e8d8b171fb81ecfe609': 'fc80cf8969cf1b3c2c061eadb94e1330'
+        }
+    },
+    stream6: {
         name: 'TVP Sport',
         url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/TVPSport/hd2-dashdrm02/TVPSport.mpd',
         keys: {
@@ -38,14 +46,14 @@ const streams = {
             '1163925b6b37434198130f773bc62841': 'e2bdd2b87e1ddb502eb7898daece857f'
         }
     },
-    stream6: {
+    stream7: {
         name: 'Polsat Sport Premium 1 Super HD',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1459449/266/dash/edb3b20d/live.mpd',
         keys: {
             '8eb4a9586edf4b0cade4b5725fd55209': '54caa4e2142cf691af9bb6028545afc6'
         }
     },
-    stream7: {
+    stream8: {
         name: 'Canal+ Sport5 HD',
         url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport5/hd2-dashdrm02/CplusSport5.mpd',
         keys: {
@@ -54,32 +62,25 @@ const streams = {
             'd8f713ce3f9443f7bdd07160d181d535': '54ef8a5499686d0c88be6ef84fc4267e'
         }
     },
-    stream8: {
+    stream9: {
         name: 'Polsat Sport Fight',
         url: 'https://lb2-e1-92.pluscdn.pl/ch/1455746/97/dash/0dd0a424/live.mpd',
         keys: {
             '39b61633fdd04e43a3485d3c5ddd1109': '6914f88aa49c2edeacc2c876a7fc108f'
         }
     },
-    stream9: {
+    stream10: {
         name: 'Sky Sports Tennis',
         url: 'https://linear014-gb-dash1-prd-ll.cdn.skycdp.com/Content/DASH_003_720_120/Live/channel(skysportstennis)/manifest_720.mpd',
         keys: {
             '00032023ad4896139b22a071d6c1183c': 'e0c6c1454bb792b843f085be9999c9da'
         }
     },
-    stream10: {
+    stream11: {
         name: 'Eurosport 2 Italy',
         url: 'https://linear312-it-dash1-prd.selector.skycdn.it/016a/31150/FHD/eurosport2/master_stereo.mpd',
         keys: {
             '003670a7034342a4a07c91173818c61c': '7b90055c1a1ea34d9090e9ebf6c4db8a'
-        }
-    },
-    stream11: {
-        name: 'Polsat Sport 3',
-        url: 'https://cdn-s-lb2.pluscdn.pl/ch/1455832/117/dash/790ff37c/live.mpd',
-        keys: {
-            '03ddf71c8dae4e8d8b171fb81ecfe609': 'fc80cf8969cf1b3c2c061eadb94e1330'
         }
     },
     stream12: {
@@ -116,7 +117,37 @@ const streams = {
         keys: {
             '00051ad8db73a944abe9ec83ad88987b': '100c985696718d923c4b1289c1cf0d7d'
         }
-    }
+    },
+    stream17: {
+        name: 'Eleven Sports 2',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11_sports/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+        keys: {
+           'db4e84001a1e4fc3bf2612dc154dd75d': 'ad535148efdde938b29be16c9ab95134'
+        }
+    },
+    stream18: {
+        name: 'Eleven Sports 3',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11_extra/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+        keys: {
+            '65c9e7e73a314bacb570514a605ea306': '91c84c5a2af36c16e20397da599a6e94'
+        }
+    },
+    stream19: {
+        name: 'Sky Sport',
+        url: 'https://linear311-it-dash1-prd.selector.skycdn.it/016a/31917/FHD/skysport251/master.mpd',
+        keys: {
+            '0036422cf4293ae7cf1e7f7062cc29e8': '37a223fcc17c087043bc837432fd25d8'
+        }
+    },
+    stream19: {
+        name: 'Canal+ Sport HD',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSportHD/hd2-dashdrm02/CplusSportHD.mpd',
+        keys: {
+            '4e942b1dad92436baad0c6a6901f6d13': '5adefdb3f4edd5ceee23d37c10c37e5c',
+            '5fb92575d7da45219e9a88646cd3e243': '31d1f1df9c246eb734de1be0f6bf6acf',
+            '7cd69bed1cc54d83bd7f988f622c1157': '332e0a856cdfcd7a1d6da6dcf84633a7'
+        }
+    },
 };
 
 let player;
@@ -124,6 +155,7 @@ if (shaka.Player.isBrowserSupported()) {
     initPlayer();
 } else {
     console.error('Browser not supported!');
+    alert('Your browser is not supported!');
 }
 
 async function initPlayer() {
@@ -132,7 +164,14 @@ async function initPlayer() {
     window.player = player;
 
     player.addEventListener('error', onErrorEvent);
-    changeStream('stream1');
+    initializeDarkMode();
+    setupEventListeners();
+    populateStreamOptions();
+
+    // Load the default stream
+    const defaultStreamKey = Object.keys(streams)[0];
+    await changeStream(defaultStreamKey);
+    updateStreamSelectedText(streams[defaultStreamKey].name);
 }
 
 function onErrorEvent(event) {
@@ -141,6 +180,8 @@ function onErrorEvent(event) {
 
 function onError(error) {
     console.error('Error code', error.code, 'object', error);
+    const notification = document.getElementById('notification');
+    notification.textContent = 'An error occurred while loading the video. Please try again.';
 }
 
 // Change stream function
@@ -160,11 +201,14 @@ async function changeStream(streamKey) {
         if (document.getElementById('autoStart').checked) {
             document.getElementById('video').play();
         }
+
+        // Clear any previous notifications
+        document.getElementById('notification').textContent = '';
     } catch (error) {
         onError(error);
     }
 
-    document.querySelector("#streamSelectContainer .select-selected").textContent = selectedStream.name;
+    updateStreamSelectedText(selectedStream.name);
     closeAllSelect();
 }
 
@@ -176,13 +220,13 @@ function populateQualityOptions() {
 
     tracks.forEach(track => {
         const option = document.createElement('div');
+        option.classList.add('option');
         option.textContent = `${track.height}p (${Math.round(track.bandwidth / 1000)} kbps)`;
         option.onclick = () => changeQuality(track.id);
         qualitySelection.appendChild(option);
     });
 
     document.querySelector("#qualitySelectContainer .select-selected").textContent = 'Select Quality';
-    closeAllSelect();
 }
 
 // Change video quality function
@@ -195,21 +239,139 @@ function changeQuality(trackId) {
     closeAllSelect();
 }
 
-// Dropdown management
-document.querySelectorAll('.custom-select').forEach(select => {
-    select.querySelector('.select-selected').addEventListener('click', function() {
-        this.nextElementSibling.classList.toggle('select-hide');
-        this.classList.toggle('select-arrow-active');
+// Custom Select Management
+function setupEventListeners() {
+    // Stream select
+    const streamSelectContainer = document.getElementById('streamSelectContainer');
+    streamSelectContainer.querySelector('.select-selected').addEventListener('click', function () {
+        toggleSelect(this);
     });
-});
 
-function closeAllSelect() {
-    document.querySelectorAll('.select-items').forEach(item => item.classList.add('select-hide'));
-    document.querySelectorAll('.select-selected').forEach(selected => selected.classList.remove('select-arrow-active'));
+    // Quality select
+    const qualitySelectContainer = document.getElementById('qualitySelectContainer');
+    qualitySelectContainer.querySelector('.select-selected').addEventListener('click', function () {
+        toggleSelect(this);
+    });
+
+    // Close selects when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!e.target.matches('.select-selected') && !e.target.matches('.favorite-icon')) {
+            closeAllSelect();
+        }
+    });
+
+    // Favorites toggle
+    document.getElementById('showFavorites').addEventListener('change', populateStreamOptions);
+
+    // Search input
+    document.getElementById('streamSearch').addEventListener('input', populateStreamOptions);
+
+    // Dark mode toggle is initialized in initializeDarkMode()
 }
 
-window.addEventListener('click', function(e) {
-    if (!e.target.matches('.select-selected')) {
-        closeAllSelect();
+function toggleSelect(selectedElement) {
+    closeAllSelect(selectedElement);
+    selectedElement.nextElementSibling.classList.toggle('select-hide');
+    selectedElement.classList.toggle('select-arrow-active');
+}
+
+function closeAllSelect(exceptElement) {
+    const selectItems = document.querySelectorAll('.select-items');
+    const selectSelected = document.querySelectorAll('.select-selected');
+
+    selectItems.forEach((item) => {
+        if (exceptElement !== item.previousElementSibling) {
+            item.classList.add('select-hide');
+        }
+    });
+
+    selectSelected.forEach((selected) => {
+        if (exceptElement !== selected) {
+            selected.classList.remove('select-arrow-active');
+        }
+    });
+}
+
+function updateStreamSelectedText(text) {
+    document.querySelector("#streamSelectContainer .select-selected").textContent = text;
+}
+
+// Search Functionality and Favorites
+function populateStreamOptions() {
+    const streamOptionsContainer = document.getElementById('streamOptions');
+    streamOptionsContainer.innerHTML = ''; // Clear existing options
+
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const showFavoritesOnly = document.getElementById('showFavorites').checked;
+    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
+
+    Object.keys(streams).forEach(streamKey => {
+        const stream = streams[streamKey];
+
+        // If showing favorites only and this stream is not a favorite, skip
+        if (showFavoritesOnly && !favorites.includes(streamKey)) {
+            return;
+        }
+
+        // Apply search filter
+        if (stream.name.toUpperCase().includes(searchFilter)) {
+            // Create the option
+            const optionDiv = document.createElement('div');
+            optionDiv.classList.add('option', 'stream-option');
+
+            // Stream name
+            const nameDiv = document.createElement('div');
+            nameDiv.classList.add('stream-name');
+            nameDiv.textContent = stream.name;
+            nameDiv.onclick = () => {
+                changeStream(streamKey);
+                closeAllSelect();
+            };
+
+            // Favorite icon
+            const favoriteIcon = document.createElement('span');
+            favoriteIcon.classList.add('favorite-icon');
+
+            if (favorites.includes(streamKey)) {
+                favoriteIcon.textContent = '★'; // Filled star
+            } else {
+                favoriteIcon.textContent = '☆'; // Empty star
+            }
+
+            favoriteIcon.onclick = (e) => {
+                e.stopPropagation(); // Prevent triggering the stream change
+                toggleFavorite(streamKey);
+            };
+
+            optionDiv.appendChild(nameDiv);
+            optionDiv.appendChild(favoriteIcon);
+            streamOptionsContainer.appendChild(optionDiv);
+        }
+    });
+}
+
+// Toggle Favorite
+function toggleFavorite(streamKey) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (favorites.includes(streamKey)) {
+        favorites = favorites.filter(fav => fav !== streamKey);
+    } else {
+        favorites.push(streamKey);
     }
-});
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    populateStreamOptions(); // Refresh the stream options
+}
+
+// Dark Mode Toggle
+function initializeDarkMode() {
+    // Initialize dark mode based on saved preference
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeToggle').checked = true;
+    }
+
+    document.getElementById('darkModeToggle').addEventListener('change', function () {
+        document.body.classList.toggle('dark-mode', this.checked);
+        localStorage.setItem('darkMode', this.checked);
+    });
+}

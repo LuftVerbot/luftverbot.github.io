@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Lufts Player</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.2.0/shaka-player.compiled.js"></script>
     <link rel="stylesheet" href="styles.css">
@@ -14,36 +13,37 @@
     <video id="video" controls></video>
 
     <div class="select-container">
+        <!-- Stream Selection -->
         <div class="custom-select" id="streamSelectContainer">
             <div class="select-selected">Select Stream</div>
-            <div class="select-items select-hide">
-                <div onclick="changeStream('stream1')">Eurosport 1</div>
-                <div onclick="changeStream('stream2')">Eurosport 2</div>
-                <div onclick="changeStream('stream3')">Polsat Sport 1</div>
-                <div onclick="changeStream('stream4')">Polsat Sport 2</div>
-                <div onclick="changeStream('stream5')">TVP Sport</div>
-                <div onclick="changeStream('stream6')">Polsat Sport Premium 1 Super HD</div>
-                <div onclick="changeStream('stream7')">Canal+ Sport5 HD</div>
-                <div onclick="changeStream('stream8')">Polsat Sport Fight</div>
-                <div onclick="changeStream('stream9')">Sky Sports Tennis</div>
-                <div onclick="changeStream('stream10')">Eurosport 2 Italy</div>
-                <div onclick="changeStream('stream11')">Polsat Sport 3</div>
-                <div onclick="changeStream('stream12')">Polsat Sport Premium 2 Super HD</div>
-                <div onclick="changeStream('stream13')">Sky Sports Golf</div>
-                <div onclick="changeStream('stream14')">Eurosport 1 Italy</div>
-                <div onclick="changeStream('stream15')">Canal+ Sport2 HD</div>
-                <div onclick="changeStream('stream16')">TNT Sports 1</div>
+            <div class="select-items select-hide" id="streamOptions">
+                <!-- Stream options will be populated here -->
             </div>
         </div>
 
+        <!-- Quality Selection -->
         <div class="custom-select" id="qualitySelectContainer">
             <div class="select-selected">Select Quality</div>
             <div class="select-items select-hide" id="qualitySelection">
-                <div>Select Quality</div>
+                <!-- Quality options will be populated here -->
             </div>
         </div>
     </div>
 
+    <div class="search-container">
+        <label for="streamSearch"></label><input type="text" id="streamSearch" placeholder="Search Streams...">
+    </div>
+
+    <!-- Favorites Toggle -->
+    <div class="favorites-toggle">
+        <label class="toggle-switch">
+            <input type="checkbox" id="showFavorites" name="showFavorites">
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Show Favorites Only</span>
+    </div>
+
+    <!-- Auto Start Toggle -->
     <div class="auto-start-toggle">
         <label class="toggle-switch">
             <input type="checkbox" id="autoStart" name="autoStart">
@@ -51,6 +51,18 @@
         </label>
         <span class="toggle-label">Auto Start</span>
     </div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle">
+        <label class="toggle-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Dark Mode</span>
+    </div>
+
+    <!-- Notification Area -->
+    <div id="notification"></div>
 </div>
 
 <script src="script.js"></script>
