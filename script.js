@@ -3,38 +3,7 @@ shaka.polyfill.installAll();
 
 let player;
 
-if (shaka.Player.isBrowserSupported()) {
-    initPlayer();
-} else {
-    console.error('Browser not supported!');
-    alert('Your browser is not supported!');
-}
-
-async function initPlayer() {
-    const video = document.getElementById('video');
-    player = new shaka.Player(video);
-    window.player = player;
-
-    player.addEventListener('error', onErrorEvent);
-
-    initializeDarkMode();
-    setupEventListeners();
-    populateStreamOptions();
-
-    // Load the default stream
-    const defaultStreamKey = Object.keys(streams)[0];
-    await changeStream(defaultStreamKey);
-    updateStreamSelectedText(streams[defaultStreamKey].name);
-}
-
-// Handle Errors
-function onErrorEvent(event) {
-    console.error('Error code', event.detail.code, 'object', event.detail);
-    const notification = document.getElementById('notification');
-    notification.textContent = 'An error occurred while loading the video. Please try again.';
-}
-
-// Stream Data (Placeholder)
+// Stream Data
 const streams = {
         stream1: {
         name: 'Eurosport 1',
@@ -183,6 +152,37 @@ const streams = {
         }
     }
 };
+
+if (shaka.Player.isBrowserSupported()) {
+    initPlayer();
+} else {
+    console.error('Browser not supported!');
+    alert('Your browser is not supported!');
+}
+
+async function initPlayer() {
+    const video = document.getElementById('video');
+    player = new shaka.Player(video);
+    window.player = player;
+
+    player.addEventListener('error', onErrorEvent);
+
+    initializeDarkMode();
+    setupEventListeners();
+    populateStreamOptions();
+
+    // Load the default stream
+    const defaultStreamKey = Object.keys(streams)[0];
+    await changeStream(defaultStreamKey);
+    updateStreamSelectedText(streams[defaultStreamKey].name);
+}
+
+// Handle Errors
+function onErrorEvent(event) {
+    console.error('Error code', event.detail.code, 'object', event.detail);
+    const notification = document.getElementById('notification');
+    notification.textContent = 'An error occurred while loading the video. Please try again.';
+}
 
 // Change Stream
 async function changeStream(streamKey) {
