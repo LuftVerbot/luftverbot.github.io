@@ -1,8 +1,40 @@
-// Shaka Player initialization
+// Initialize Shaka Player
 shaka.polyfill.installAll();
 
+if (shaka.Player.isBrowserSupported()) {
+    initPlayer();
+} else {
+    console.error('Browser not supported!');
+    alert('Your browser is not supported!');
+}
+
+async function initPlayer() {
+    const video = document.getElementById('video');
+    const player = new shaka.Player(video);
+    window.player = player;
+
+    player.addEventListener('error', onErrorEvent);
+
+    initializeDarkMode();
+    setupEventListeners();
+    populateStreamOptions();
+
+    // Load the default stream
+    const defaultStreamKey = Object.keys(streams)[0];
+    await changeStream(defaultStreamKey);
+    updateStreamSelectedText(streams[defaultStreamKey].name);
+}
+
+// Handle Errors
+function onErrorEvent(event) {
+    console.error('Error code', event.detail.code, 'object', event.detail);
+    const notification = document.getElementById('notification');
+    notification.textContent = 'An error occurred while loading the video. Please try again.';
+}
+
+// Stream Data (Placeholder)
 const streams = {
-    stream1: {
+        stream1: {
         name: 'Eurosport 1',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1456336/126/dash/d6c12d19/live.mpd',
         keys: {
@@ -147,44 +179,10 @@ const streams = {
             '5fb92575d7da45219e9a88646cd3e243': '31d1f1df9c246eb734de1be0f6bf6acf',
             '7cd69bed1cc54d83bd7f988f622c1157': '332e0a856cdfcd7a1d6da6dcf84633a7'
         }
-    },
+    }
 };
 
-let player;
-if (shaka.Player.isBrowserSupported()) {
-    initPlayer();
-} else {
-    console.error('Browser not supported!');
-    alert('Your browser is not supported!');
-}
-
-async function initPlayer() {
-    const video = document.getElementById('video');
-    player = new shaka.Player(video);
-    window.player = player;
-
-    player.addEventListener('error', onErrorEvent);
-    initializeDarkMode();
-    setupEventListeners();
-    populateStreamOptions();
-
-    // Load the default stream
-    const defaultStreamKey = Object.keys(streams)[0];
-    await changeStream(defaultStreamKey);
-    updateStreamSelectedText(streams[defaultStreamKey].name);
-}
-
-function onErrorEvent(event) {
-    onError(event.detail);
-}
-
-function onError(error) {
-    console.error('Error code', error.code, 'object', error);
-    const notification = document.getElementById('notification');
-    notification.textContent = 'An error occurred while loading the video. Please try again.';
-}
-
-// Change stream function
+// Change Stream
 async function changeStream(streamKey) {
     const selectedStream = streams[streamKey];
     player.configure({
@@ -202,17 +200,55 @@ async function changeStream(streamKey) {
             document.getElementById('video').play();
         }
 
-        // Clear any previous notifications
+        // Clear notifications
         document.getElementById('notification').textContent = '';
     } catch (error) {
-        onError(error);
+        onErrorEvent({ detail: error });
     }
 
     updateStreamSelectedText(selectedStream.name);
     closeAllSelect();
 }
 
-// Populate available quality options
+// Populate Stream Options
+function populateStreamOptions() {
+    const streamOptionsContainer = document.getElementById('streamOptions');
+    streamOptionsContainer.innerHTML = '';
+
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const showFavoritesOnly = document.getElementById('showFavorites').checked;
+    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
+
+    for (const [streamKey, stream] of Object.entries(streams)) {
+        if (showFavoritesOnly && !favorites.includes(streamKey)) continue;
+        if (!stream.name.toUpperCase().includes(searchFilter)) continue;
+
+        const optionDiv = document.createElement('div');
+        optionDiv.classList.add('option', 'stream-option');
+
+        const nameDiv = document.createElement('div');
+        nameDiv.classList.add('stream-name');
+        nameDiv.textContent = stream.name;
+        nameDiv.onclick = () => {
+            changeStream(streamKey);
+            closeAllSelect();
+        };
+
+        const favoriteIcon = document.createElement('span');
+        favoriteIcon.classList.add('favorite-icon');
+        favoriteIcon.textContent = favorites.includes(streamKey) ? '★' : '☆';
+        favoriteIcon.onclick = (e) => {
+            e.stopPropagation();
+            toggleFavorite(streamKey);
+        };
+
+        optionDiv.appendChild(nameDiv);
+        optionDiv.appendChild(favoriteIcon);
+        streamOptionsContainer.appendChild(optionDiv);
+    }
+}
+
+// Change Quality
 function populateQualityOptions() {
     const tracks = player.getVariantTracks();
     const qualitySelection = document.getElementById('qualitySelection');
@@ -229,7 +265,6 @@ function populateQualityOptions() {
     document.querySelector("#qualitySelectContainer .select-selected").textContent = 'Select Quality';
 }
 
-// Change video quality function
 function changeQuality(trackId) {
     const tracks = player.getVariantTracks();
     const selectedTrack = tracks.find(track => track.id === trackId);
@@ -239,7 +274,7 @@ function changeQuality(trackId) {
     closeAllSelect();
 }
 
-// Custom Select Management
+// Event Listeners
 function setupEventListeners() {
     // Stream select
     const streamSelectContainer = document.getElementById('streamSelectContainer');
@@ -265,10 +300,9 @@ function setupEventListeners() {
 
     // Search input
     document.getElementById('streamSearch').addEventListener('input', populateStreamOptions);
-
-    // Dark mode toggle is initialized in initializeDarkMode()
 }
 
+// Toggle Select
 function toggleSelect(selectedElement) {
     closeAllSelect(selectedElement);
     selectedElement.nextElementSibling.classList.toggle('select-hide');
@@ -296,61 +330,7 @@ function updateStreamSelectedText(text) {
     document.querySelector("#streamSelectContainer .select-selected").textContent = text;
 }
 
-// Search Functionality and Favorites
-function populateStreamOptions() {
-    const streamOptionsContainer = document.getElementById('streamOptions');
-    streamOptionsContainer.innerHTML = ''; // Clear existing options
-
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const showFavoritesOnly = document.getElementById('showFavorites').checked;
-    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
-
-    Object.keys(streams).forEach(streamKey => {
-        const stream = streams[streamKey];
-
-        // If showing favorites only and this stream is not a favorite, skip
-        if (showFavoritesOnly && !favorites.includes(streamKey)) {
-            return;
-        }
-
-        // Apply search filter
-        if (stream.name.toUpperCase().includes(searchFilter)) {
-            // Create the option
-            const optionDiv = document.createElement('div');
-            optionDiv.classList.add('option', 'stream-option');
-
-            // Stream name
-            const nameDiv = document.createElement('div');
-            nameDiv.classList.add('stream-name');
-            nameDiv.textContent = stream.name;
-            nameDiv.onclick = () => {
-                changeStream(streamKey);
-                closeAllSelect();
-            };
-
-            // Favorite icon
-            const favoriteIcon = document.createElement('span');
-            favoriteIcon.classList.add('favorite-icon');
-
-            if (favorites.includes(streamKey)) {
-                favoriteIcon.textContent = '★'; // Filled star
-            } else {
-                favoriteIcon.textContent = '☆'; // Empty star
-            }
-
-            favoriteIcon.onclick = (e) => {
-                e.stopPropagation(); // Prevent triggering the stream change
-                toggleFavorite(streamKey);
-            };
-
-            optionDiv.appendChild(nameDiv);
-            optionDiv.appendChild(favoriteIcon);
-            streamOptionsContainer.appendChild(optionDiv);
-        }
-    });
-}
-
-// Toggle Favorite
+// Favorites
 function toggleFavorite(streamKey) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     if (favorites.includes(streamKey)) {
@@ -359,18 +339,17 @@ function toggleFavorite(streamKey) {
         favorites.push(streamKey);
     }
     localStorage.setItem('favorites', JSON.stringify(favorites));
-    populateStreamOptions(); // Refresh the stream options
+    populateStreamOptions();
 }
 
-// Dark Mode Toggle
+// Dark Mode
 function initializeDarkMode() {
-    // Initialize dark mode based on saved preference
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('darkModeToggle').checked = true;
-    }
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    darkModeToggle.checked = isDarkMode;
 
-    document.getElementById('darkModeToggle').addEventListener('change', function () {
+    darkModeToggle.addEventListener('change', function () {
         document.body.classList.toggle('dark-mode', this.checked);
         localStorage.setItem('darkMode', this.checked);
     });
