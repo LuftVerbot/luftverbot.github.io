@@ -215,39 +215,55 @@ async function changeStream(streamKey) {
 // Populate Stream Options
 function populateStreamOptions() {
     const streamOptionsContainer = document.getElementById('streamOptions');
-    streamOptionsContainer.innerHTML = '';
+    streamOptionsContainer.innerHTML = ''; // Clear existing options
 
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const showFavoritesOnly = document.getElementById('showFavorites').checked;
     const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
 
-    for (const [streamKey, stream] of Object.entries(streams)) {
-        if (showFavoritesOnly && !favorites.includes(streamKey)) continue;
-        if (!stream.name.toUpperCase().includes(searchFilter)) continue;
+    Object.keys(streams).forEach(streamKey => {
+        const stream = streams[streamKey];
 
-        const optionDiv = document.createElement('div');
-        optionDiv.classList.add('option', 'stream-option');
+        // If showing favorites only and this stream is not a favorite, skip
+        if (showFavoritesOnly && !favorites.includes(streamKey)) {
+            return;
+        }
 
-        const nameDiv = document.createElement('div');
-        nameDiv.classList.add('stream-name');
-        nameDiv.textContent = stream.name;
-        nameDiv.onclick = () => {
-            changeStream(streamKey);
-            closeAllSelect();
-        };
+        // Apply search filter
+        if (stream.name.toUpperCase().includes(searchFilter)) {
+            // Create the option
+            const optionDiv = document.createElement('div');
+            optionDiv.classList.add('option', 'stream-option');
 
-        const favoriteIcon = document.createElement('span');
-        favoriteIcon.classList.add('favorite-icon');
-        favoriteIcon.textContent = favorites.includes(streamKey) ? '★' : '☆';
-        favoriteIcon.onclick = (e) => {
-            e.stopPropagation();
-            toggleFavorite(streamKey);
-        };
+            // Stream name
+            const nameDiv = document.createElement('div');
+            nameDiv.classList.add('stream-name');
+            nameDiv.textContent = stream.name;
+            nameDiv.onclick = () => {
+                changeStream(streamKey);
+                closeAllSelect();
+            };
 
-        optionDiv.appendChild(nameDiv);
-        optionDiv.appendChild(favoriteIcon);
-        streamOptionsContainer.appendChild(optionDiv);
-    }
+            // Favorite icon
+            const favoriteIcon = document.createElement('span');
+            favoriteIcon.classList.add('favorite-icon');
+
+            if (favorites.includes(streamKey)) {
+                favoriteIcon.textContent = '★'; // Filled star
+            } else {
+                favoriteIcon.textContent = '☆'; // Empty star
+            }
+
+            favoriteIcon.onclick = (e) => {
+                e.stopPropagation(); // Prevent triggering the stream change
+                toggleFavorite(streamKey);
+            };
+
+            optionDiv.appendChild(nameDiv);
+            optionDiv.appendChild(favoriteIcon);
+            streamOptionsContainer.appendChild(optionDiv);
+        }
+    });
 }
 
 // Change Quality
