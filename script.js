@@ -1,6 +1,8 @@
 // Initialize Shaka Player
 shaka.polyfill.installAll();
 
+let player;
+
 if (shaka.Player.isBrowserSupported()) {
     initPlayer();
 } else {
@@ -10,7 +12,7 @@ if (shaka.Player.isBrowserSupported()) {
 
 async function initPlayer() {
     const video = document.getElementById('video');
-    const player = new shaka.Player(video);
+    player = new shaka.Player(video);
     window.player = player;
 
     player.addEventListener('error', onErrorEvent);
