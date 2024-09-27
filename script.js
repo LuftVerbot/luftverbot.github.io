@@ -109,9 +109,11 @@ const streams = {
     },
     stream15: {
         name: 'Canal+ Sport2 HD',
-        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_sport_2/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=1&dvr=7200000',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport2HD/hd2-dashdrm02/CplusSport2HD.mpd',
         keys: {
-            '161535d1b35471c739e9e6a2e5b9e272': 'eff4686a6dabbb0ac88c685e14be12d9'
+            '4f7fa9f0250a43cea8aebd8167f1fc81': 'f6bbc783b0e7a46a147e673a4347730a',
+            '89787fecb0ac43ab86aa356054e2a183': 'f0153c6dc5c55c5f23fcdeed8241d5e4',
+            '581eba7045254d1de036557789932a05': 'f5c080517f6c4366b1930315a6aa70e7'
         }
     },
     stream16: {
@@ -142,7 +144,7 @@ const streams = {
             '0036422cf4293ae7cf1e7f7062cc29e8': '37a223fcc17c087043bc837432fd25d8'
         }
     },
-    stream19: {
+    stream20: {
         name: 'Canal+ Sport HD',
         url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSportHD/hd2-dashdrm02/CplusSportHD.mpd',
         keys: {
