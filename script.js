@@ -152,6 +152,13 @@ const streams = {
             '5fb92575d7da45219e9a88646cd3e243': '31d1f1df9c246eb734de1be0f6bf6acf',
             '7cd69bed1cc54d83bd7f988f622c1157': '332e0a856cdfcd7a1d6da6dcf84633a7'
         }
+    },
+    stream21: {
+        name: 'Sky Sport 1 German',
+        url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/031122-50/index_stereo.mpd',
+        keys: {
+           '000b0e3422812fcf3d1eb8cdf7511193': '1fe928a3793feb3739f293b0b1b81d1d'
+        }
     }
 };
 
