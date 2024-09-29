@@ -170,7 +170,7 @@ const streams = {
         }
     },
     stream23: {
-        name: 'Eleven Sports 4,
+        name: 'Eleven Sports 4',
         url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/eleven_sports_4_hd/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0',
         keys: {
            '5288e6308fb45f5b89f3ece30b12b1b3': '106c98f71aa6a18fbd32da9d58859413'
