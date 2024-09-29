@@ -159,6 +159,15 @@ const streams = {
         keys: {
            '000b0e3422812fcf3d1eb8cdf7511193': '1fe928a3793feb3739f293b0b1b81d1d'
         }
+    },
+    stream22: {
+        name: 'Canal+ Sport 3 HD',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport3HD/hd2-dashdrm02/CplusSport3HD.mpd',
+        keys: {
+           '274cafc63e854f9ca14acbc49af103a0': '4dc63ff74dc5415f3c0c63b62f8fedaa',
+           'b4274e5bdb7e4370bb87af609a74a64e': '4763cbd2fa26f4de8bead22db09b0f46',
+           '009d1ea463574791a88e5d008f7ab15c': 'fa4812bd0d608c2f8bfeb02fb213320d'
+        }
     }
 };
 
