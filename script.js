@@ -14,9 +14,9 @@ const streams = {
     },
     stream2: {
         name: 'Eurosport 2',
-        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayer/live/eurosport_2/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+        url: 'https://lb2-e2-31.pluscdn.pl/ch/1455824/109/dash/8792e496/live.mpd',
         keys: {
-            'bad345c3ad2e356f44ddbc8fe1eda83f': '81d4e6c13b382a7233efdcea27337875'
+            '51ab61e7bc85492a9ff91bb55f101709': '59acf98d228bddef6443da0b5b0669a2'
         }
     },
     stream3: {
