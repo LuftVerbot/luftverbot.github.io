@@ -175,13 +175,6 @@ const streams = {
         keys: {
            '5288e6308fb45f5b89f3ece30b12b1b3': '106c98f71aa6a18fbd32da9d58859413'
         }
-    },
-    stream24: {
-        name: 'Sky Bundesliga 1 German',
-        url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/031122-50/index_stereo.mpd',
-        keys: {
-           '000b0e3422812fcf3d1eb8cdf7511193': '1fe928a3793feb3739f293b0b1b81d1d'
-        }
     }
 };
 
