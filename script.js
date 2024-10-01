@@ -1,7 +1,8 @@
 // Initialize Shaka Player
 shaka.polyfill.installAll();
 
-let player;
+let player = null;
+window.hls = null;
 
 // Stream Data
 const streams = {
@@ -175,6 +176,21 @@ const streams = {
         keys: {
            '5288e6308fb45f5b89f3ece30b12b1b3': '106c98f71aa6a18fbd32da9d58859413'
         }
+    },
+    stream24: {
+        name: 'Eleven Sports 1',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+        keys: {
+            '3bdddc3ae3bb43b7a93d6ff72991e5dc': '9a1ca978d3bb5fe1300696f9683567eb'
+        }
+    },
+    stream25: {
+        name: 'DAZN 1 German',
+        url: 'https://td3wb1bchdvsahp.ngolpdkyoctjcddxshli469r.org/sunshine/_WaVA4lSlte7kmJVoBlswTWw5EBwT5SUp9yqgQey2zmNVfeDD_vzgxOGDP-MYq9KXMObxrjnpwZAkMv6iRoMJqGRQg6yq8ooyFUrU4lNpMP5nK-W3HcVYZLWITPOrDFv8Q_Or4cniARvcfEsGRCE7PkSSe-nBZIacokmYrS-nKfV9WOC9EOWMrpwiJp57eWvzwXIwRe1beCrIOlhMJsIEaTNrXjnudrLQ71SLD-kKyU/hls/index.m3u8'
+    },
+    stream26: {
+        name: 'DAZN 2 German',
+        url: 'http://45.143.220.78:8008/sunshine/KOS55bLDsHj2vRiCMetC7I057d34ebO0bN3qiQUq_kn8Nkt1YoMaRmpxjcAWZbUb_F7qXD2X8I-kTEiGW0nnQnXbfQPwZ41GCnsR92VT-9wpYFGnn9pKwfGbz8twAmjagMY_FbG1cV50xU0eJa94P6WnZvUmpIBQXWrKT-OLKwxXndaiWURD-0xgYGvKEG8M73KSV20Oj8pvjLt_ho19x8Mrvw1M6NkNh6PJKlhq0Kc/hls/index.m3u8',
     }
 };
 
@@ -212,25 +228,99 @@ function onErrorEvent(event) {
 // Change Stream
 async function changeStream(streamKey) {
     const selectedStream = streams[streamKey];
-    player.configure({
-        drm: {
-            clearKeys: selectedStream.keys
+    const videoElement = document.getElementById('video');
+
+    // Destroy any existing player instances
+    if (player) {
+        await player.destroy();
+        player = null;
+    }
+    if (window.hls) {
+        window.hls.destroy();
+        window.hls = null;
+    }
+
+    // Check if the stream has DRM keys
+    if (selectedStream.keys) {
+        // Use Shaka Player for DRM-protected streams
+        shaka.polyfill.installAll();
+        player = new shaka.Player(videoElement);
+
+        // Listen for error events
+        player.addEventListener('error', onErrorEvent);
+
+        // Configure DRM
+        player.configure({
+            drm: {
+                clearKeys: selectedStream.keys
+            }
+        });
+
+        try {
+            await player.load(selectedStream.url);
+            console.log('DRM-protected stream loaded successfully!');
+            populateQualityOptionsShaka();
+
+            if (document.getElementById('autoStart').checked) {
+                videoElement.play();
+            }
+
+            // Clear notifications
+            document.getElementById('notification').textContent = '';
+        } catch (error) {
+            onErrorEvent({ detail: error });
         }
-    });
+    } else {
+        // Use hls.js for non-DRM streams
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            window.hls = hls;
 
-    try {
-        await player.load(selectedStream.url);
-        console.log('Stream loaded successfully!');
-        populateQualityOptions();
+            hls.attachMedia(videoElement);
 
-        if (document.getElementById('autoStart').checked) {
-            document.getElementById('video').play();
+            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                console.log('Video and hls.js are now bound together!');
+                hls.loadSource(selectedStream.url);
+
+                hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+                    console.log('Manifest loaded, found ' + data.levels.length + ' quality levels');
+
+                    // Populate quality options
+                    populateQualityOptionsHls(data.levels);
+
+                    if (document.getElementById('autoStart').checked) {
+                        videoElement.play();
+                    }
+
+                    // Clear notifications
+                    document.getElementById('notification').textContent = '';
+                });
+            });
+
+            hls.on(Hls.Events.ERROR, function (event, data) {
+                console.error('HLS.js error:', data);
+                const notification = document.getElementById('notification');
+                notification.textContent = 'An error occurred while loading the video. Please try again.';
+            });
+        } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+            // Fallback for browsers with native HLS support (e.g., Safari)
+            videoElement.src = selectedStream.url;
+            videoElement.addEventListener('loadedmetadata', function () {
+                console.log('Non-DRM stream loaded successfully!');
+                populateQualityOptionsNative();
+
+                if (document.getElementById('autoStart').checked) {
+                    videoElement.play();
+                }
+
+                // Clear notifications
+                document.getElementById('notification').textContent = '';
+            });
+        } else {
+            console.error('HLS not supported in this browser');
+            const notification = document.getElementById('notification');
+            notification.textContent = 'HLS is not supported in this browser.';
         }
-
-        // Clear notifications
-        document.getElementById('notification').textContent = '';
-    } catch (error) {
-        onErrorEvent({ detail: error });
     }
 
     updateStreamSelectedText(selectedStream.name);
@@ -292,29 +382,85 @@ function populateStreamOptions() {
 }
 
 // Change Quality
-function populateQualityOptions() {
-    const tracks = player.getVariantTracks();
+function populateQualityOptionsHls(levels) {
     const qualitySelection = document.getElementById('qualitySelection');
     qualitySelection.innerHTML = '';
 
-    tracks.forEach(track => {
+    // Add 'Auto' option
+    const autoOption = document.createElement('div');
+    autoOption.classList.add('option');
+    autoOption.textContent = 'Auto';
+    autoOption.onclick = () => changeQualityHls(-1);
+    qualitySelection.appendChild(autoOption);
+
+    levels.forEach((level, index) => {
         const option = document.createElement('div');
         option.classList.add('option');
-        option.textContent = `${track.height}p (${Math.round(track.bandwidth / 1000)} kbps)`;
-        option.onclick = () => changeQuality(track.id);
+        option.textContent = `${level.height}p (${Math.round(level.bitrate / 1000)} kbps)`;
+        option.onclick = () => changeQualityHls(index);
         qualitySelection.appendChild(option);
     });
 
     document.querySelector("#qualitySelectContainer .select-selected").textContent = 'Select Quality';
 }
 
-function changeQuality(trackId) {
-    const tracks = player.getVariantTracks();
-    const selectedTrack = tracks.find(track => track.id === trackId);
-    player.selectVariantTrack(selectedTrack, true);
-
-    document.querySelector("#qualitySelectContainer .select-selected").textContent = `${selectedTrack.height}p (${Math.round(selectedTrack.bandwidth / 1000)} kbps)`;
+function changeQualityHls(levelIndex) {
+    if (window.hls) {
+        window.hls.currentLevel = levelIndex;
+        if (levelIndex === -1) {
+            document.querySelector("#qualitySelectContainer .select-selected").textContent = 'Auto';
+        } else {
+            const level = window.hls.levels[levelIndex];
+            document.querySelector("#qualitySelectContainer .select-selected").textContent = `${level.height}p (${Math.round(level.bitrate / 1000)} kbps)`;
+        }
+    }
     closeAllSelect();
+}
+
+function populateQualityOptionsShaka() {
+    if (player) {
+        const tracks = player.getVariantTracks();
+        const qualitySelection = document.getElementById('qualitySelection');
+        qualitySelection.innerHTML = '';
+
+        tracks.forEach(track => {
+            const option = document.createElement('div');
+            option.classList.add('option');
+            option.textContent = `${track.height}p (${Math.round(track.bandwidth / 1000)} kbps)`;
+            option.onclick = () => changeQualityShaka(track.id);
+            qualitySelection.appendChild(option);
+        });
+
+        document.querySelector("#qualitySelectContainer .select-selected").textContent = 'Select Quality';
+    }
+}
+
+function changeQualityShaka(trackId) {
+    if (player) {
+        const tracks = player.getVariantTracks();
+        const selectedTrack = tracks.find(track => track.id === trackId);
+        player.selectVariantTrack(selectedTrack, true);
+
+        document.querySelector("#qualitySelectContainer .select-selected").textContent = `${selectedTrack.height}p (${Math.round(selectedTrack.bandwidth / 1000)} kbps)`;
+        closeAllSelect();
+    }
+}
+
+function populateQualityOptionsNative() {
+    // Native HLS does not provide access to quality levels
+    const qualitySelection = document.getElementById('qualitySelection');
+    qualitySelection.innerHTML = '';
+
+    const option = document.createElement('div');
+    option.classList.add('option');
+    option.textContent = 'Default';
+    option.onclick = () => {
+        document.querySelector("#qualitySelectContainer .select-selected").textContent = 'Default';
+        closeAllSelect();
+    };
+    qualitySelection.appendChild(option);
+
+    document.querySelector("#qualitySelectContainer .select-selected").textContent = 'Default';
 }
 
 // Event Listeners
