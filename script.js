@@ -185,12 +185,18 @@ const streams = {
         }
     },
     stream25: {
-        name: 'DAZN 1 German',
-        url: 'https://td3wb1bchdvsahp.ngolpdkyoctjcddxshli469r.org/sunshine/_WaVA4lSlte7kmJVoBlswTWw5EBwT5SUp9yqgQey2zmNVfeDD_vzgxOGDP-MYq9KXMObxrjnpwZAkMv6iRoMJqGRQg6yq8ooyFUrU4lNpMP5nK-W3HcVYZLWITPOrDFv8Q_Or4cniARvcfEsGRCE7PkSSe-nBZIacokmYrS-nKfV9WOC9EOWMrpwiJp57eWvzwXIwRe1beCrIOlhMJsIEaTNrXjnudrLQ71SLD-kKyU/hls/index.m3u8'
+        name: 'Sky Sport Bundesliga 1',
+        url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/031122-50/index_stereo.mpdd',
+        keys: {
+            '000b0e3422812fcf3d1eb8cdf7511193': '1fe928a3793feb3739f293b0b1b81d1d'
+        }
     },
     stream26: {
-        name: 'DAZN 2 German',
-        url: 'http://45.143.220.78:8008/sunshine/KOS55bLDsHj2vRiCMetC7I057d34ebO0bN3qiQUq_kn8Nkt1YoMaRmpxjcAWZbUb_F7qXD2X8I-kTEiGW0nnQnXbfQPwZ41GCnsR92VT-9wpYFGnn9pKwfGbz8twAmjagMY_FbG1cV50xU0eJa94P6WnZvUmpIBQXWrKT-OLKwxXndaiWURD-0xgYGvKEG8M73KSV20Oj8pvjLt_ho19x8Mrvw1M6NkNh6PJKlhq0Kc/hls/index.m3u8',
+        name: 'Sky Sport Bundesliga 2',
+        url: 'https://linear204-de-dash1-prd-ak.cdn12.skycdp.com/031123-50/index_stereo.mpd',
+        keys: {
+            '000befd7c86292bb122e08bcfc0a06c2': 'd1cdb3b40de46f75910b2b69ffea9dab'
+        }
     }
 };
 
