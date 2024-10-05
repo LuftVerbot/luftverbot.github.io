@@ -186,7 +186,7 @@ const streams = {
     },
     stream25: {
         name: 'Sky Sport Bundesliga 1',
-        url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/031122-50/index_stereo.mpdd',
+        url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/031122-50/index_stereo.mpd',
         keys: {
             '000b0e3422812fcf3d1eb8cdf7511193': '1fe928a3793feb3739f293b0b1b81d1d'
         }
