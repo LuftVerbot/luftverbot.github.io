@@ -197,6 +197,13 @@ const streams = {
         keys: {
             '000befd7c86292bb122e08bcfc0a06c2': 'd1cdb3b40de46f75910b2b69ffea9dab'
         }
+    },
+    stream27: {
+        name: 'Sky Sport Bundesliga 3',
+        url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/031124-50/index_stereo.mpd',
+        keys: {
+            '000b2bff43fd13add0f7e3fd8a7d3066': 'cf859a91af1aed3d87b148e8fcb9111f'
+        }
     }
 };
 
