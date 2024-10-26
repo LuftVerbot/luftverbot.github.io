@@ -204,6 +204,20 @@ const streams = {
         keys: {
             '000b2bff43fd13add0f7e3fd8a7d3066': 'cf859a91af1aed3d87b148e8fcb9111f'
         }
+    },
+    stream28: {
+        name: 'Sky Sport Bundesliga 4',
+        url: 'https://linear204-de-dash1-prd-ak.cdn12.skycdp.com/031125-50/index_stereo.mpd',
+        keys: {
+            '000ba721a0fffe492656276b76701d85': '746161b7ed203532f40ac3f3852bd12a'
+        }
+    },
+    stream29: {
+        name: 'Sky Sport Bundesliga 5',
+        url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/032126-50/index_stereo.mpd',
+        keys: {
+            '000b4dd98709c99e7d3ca61284971da3': 'd37b0eafb4859024bfe415c37b967ce2'
+        }
     }
 };
 
