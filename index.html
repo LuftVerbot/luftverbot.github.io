@@ -12,72 +12,81 @@
 </head>
 <body>
 
-    <div class="player-container">
-        <!-- Video Player -->
-        <video id="video" controls></video>
+<!-- Player & Controls Container -->
+<div class="player-container">
 
-        <!-- Controls -->
-        <div class="controls-container">
-            <!-- Stream Selection -->
-            <div class="custom-select" id="streamSelectContainer">
-                <div class="select-selected">Select Stream</div>
-                <div class="select-items select-hide" id="streamOptions">
-                    <!-- Stream options will be populated here -->
-                </div>
-            </div>
+    <!-- Video Player -->
+    <video id="video" controls></video>
 
-            <!-- Quality Selection -->
-            <div class="custom-select" id="qualitySelectContainer">
-                <div class="select-selected">Select Quality</div>
-                <div class="select-items select-hide" id="qualitySelection">
-                    <!-- Quality options will be populated here -->
-                </div>
+    <!-- Controls -->
+    <div class="controls-container">
+        <!-- Stream Selection (optional, or keep if desired) -->
+        <div class="custom-select" id="streamSelectContainer">
+            <div class="select-selected">Select Stream</div>
+            <div class="select-items select-hide" id="streamOptions">
+                <!-- Original list-based stream options (hidden in Netflix mode) -->
             </div>
         </div>
 
-        <!-- Search and Toggles -->
-        <div class="options-container">
-            <!-- Search -->
-            <div class="search-container">
-                <input type="text" id="streamSearch" placeholder="Search Streams...">
-            </div>
-
-            <!-- Toggles -->
-            <div class="toggles-container">
-                <!-- Favorites Toggle -->
-                <div class="toggle-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="showFavorites">
-                        <span class="slider"></span>
-                    </label>
-                    <span class="toggle-label">Show Favorites Only</span>
-                </div>
-
-                <!-- Auto Start Toggle -->
-                <div class="toggle-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="autoStart">
-                        <span class="slider"></span>
-                    </label>
-                    <span class="toggle-label">Auto Start</span>
-                </div>
-
-                <!-- Dark Mode Toggle -->
-                <div class="toggle-item">
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="darkModeToggle">
-                        <span class="slider"></span>
-                    </label>
-                    <span class="toggle-label">Dark Mode</span>
-                </div>
+        <!-- Quality Selection -->
+        <div class="custom-select" id="qualitySelectContainer">
+            <div class="select-selected">Select Quality</div>
+            <div class="select-items select-hide" id="qualitySelection">
+                <!-- Dynamically populated quality levels -->
             </div>
         </div>
-
-        <!-- Notification Area -->
-        <div id="notification"></div>
     </div>
 
-    <!-- Custom JavaScript -->
+    <!-- Search & Toggles -->
+    <div class="options-container">
+        <!-- Search -->
+        <div class="search-container">
+            <input type="text" id="streamSearch" placeholder="Search Streams...">
+        </div>
+
+        <!-- Toggles -->
+        <div class="toggles-container">
+            <!-- Favorites Toggle -->
+            <div class="toggle-item">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="showFavorites">
+                    <span class="slider"></span>
+                </label>
+                <span class="toggle-label">Show Favorites Only</span>
+            </div>
+
+            <!-- Auto Start Toggle -->
+            <div class="toggle-item">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="autoStart">
+                    <span class="slider"></span>
+                </label>
+                <span class="toggle-label">Auto Start</span>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <div class="toggle-item">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+                <span class="toggle-label">Dark Mode</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Area -->
+    <div id="notification"></div>
+</div>
+
+<!-- Netflix-like Library Grid -->
+<div class="stream-library" id="streamLibrary">
+    <!-- Stream cards will be injected here by JavaScript -->
+</div>
+
+<!-- ==============================
+     JavaScript
+     ============================== -->
     <script src="script.js"></script>
 </body>
 </html>

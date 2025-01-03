@@ -1,7 +1,3 @@
-// ========================
-//     Improved Script
-// ========================
-
 // Install polyfills for Shaka
 shaka.polyfill.installAll();
 
@@ -244,9 +240,8 @@ const streams = {
     }
 };
 
-// ========================
-//      Initialization
-// ========================
+
+// Check browser support for Shaka
 if (shaka.Player.isBrowserSupported()) {
     initPlayer();
 } else {
@@ -254,20 +249,20 @@ if (shaka.Player.isBrowserSupported()) {
     alert('Your browser is not supported!');
 }
 
-// Main initialization function
 async function initPlayer() {
     const video = document.getElementById('video');
     player = new shaka.Player(video);
     window.player = player;
-
-    // Global error handling for Shaka
     player.addEventListener('error', onErrorEvent);
 
-    // Setup UI behaviors
+    // Initialize UI
     initializeDarkMode();
     setupEventListeners();
 
-    // Populate stream list in the dropdown
+    // Build Netflix-like library
+    generateStreamLibrary();
+
+    // Populate old select-based stream list if you still want it
     populateStreamOptions();
 
     // Load the default stream
@@ -276,39 +271,96 @@ async function initPlayer() {
     updateStreamSelectedText(streams[defaultStreamKey].name);
 }
 
-// ========================
-//     Error Handling
-// ========================
+// ==============================
+//    Netflix-like Library
+// ==============================
+function generateStreamLibrary() {
+    const libraryContainer = document.getElementById('streamLibrary');
+    libraryContainer.innerHTML = ''; // Clear any existing
+
+    // Load favorites from localStorage (used to mark the star icon)
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    // Search filter and favorites toggle
+    const showFavoritesOnly = document.getElementById('showFavorites').checked;
+    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
+
+    // Loop over streams
+    Object.keys(streams).forEach((streamKey) => {
+        const stream = streams[streamKey];
+        const isFavorite = favorites.includes(streamKey);
+
+        // Check favorites-only filter
+        if (showFavoritesOnly && !isFavorite) return;
+
+        // Check search filter
+        if (!stream.name.toUpperCase().includes(searchFilter)) return;
+
+        // Create card
+        const card = document.createElement('div');
+        card.classList.add('stream-card');
+
+        // Instead of an image/thumbnail, just display the stream name directly
+        const namePlaceholder = document.createElement('div');
+        namePlaceholder.classList.add('stream-thumbnail-text');
+        namePlaceholder.textContent = stream.name;
+        card.appendChild(namePlaceholder);
+
+        // Create an overlay for the star icon (favorites)
+        const overlay = document.createElement('div');
+        overlay.classList.add('stream-favorite-overlay');
+
+        // Favorite icon
+        const favIcon = document.createElement('div');
+        favIcon.classList.add('favorite-icon');
+        favIcon.textContent = isFavorite ? '★' : '☆';
+        favIcon.onclick = (e) => {
+            e.stopPropagation();
+            toggleFavorite(streamKey);
+        };
+
+        overlay.appendChild(favIcon);
+
+        // Add event to load stream on card click
+        card.onclick = () => {
+            changeStream(streamKey);
+        };
+
+        // Append overlay to card
+        card.appendChild(overlay);
+
+        // Add card to library
+        libraryContainer.appendChild(card);
+    });
+}
+
+// ==============================
+//    Stream & Player Logic
+// ==============================
 function onErrorEvent(event) {
     console.error('Error code', event.detail.code, 'object', event.detail);
     showNotification('An error occurred while loading the video. Please try again.');
 }
 
 function showNotification(message) {
-    const notification = document.getElementById('notification');
-    notification.textContent = message;
+    document.getElementById('notification').textContent = message;
 }
 
 function clearNotification() {
     document.getElementById('notification').textContent = '';
 }
 
-// ========================
-//    Stream Management
-// ========================
 async function changeStream(streamKey) {
     const selectedStream = streams[streamKey];
     const videoElement = document.getElementById('video');
 
-    // Destroy any existing players
+    // Destroy existing players
     await destroyPlayers();
 
-    // Decide whether to use Shaka or HLS.js
+    // If keys exist -> Shaka (DRM), otherwise -> HLS / native
     if (selectedStream.keys) {
-        // DRM-protected => Shaka Player
         await setupShakaPlayer(videoElement, selectedStream);
     } else {
-        // Non-DRM => HLS (or native fallback)
         await setupHlsPlayer(videoElement, selectedStream);
     }
 
@@ -316,7 +368,6 @@ async function changeStream(streamKey) {
     closeAllSelect();
 }
 
-// Helper: Destroy existing instances
 async function destroyPlayers() {
     if (player) {
         try {
@@ -326,7 +377,6 @@ async function destroyPlayers() {
         }
         player = null;
     }
-
     if (window.hls) {
         try {
             window.hls.destroy();
@@ -337,13 +387,12 @@ async function destroyPlayers() {
     }
 }
 
-// Setup Shaka for DRM content
 async function setupShakaPlayer(videoElement, stream) {
     shaka.polyfill.installAll();
     player = new shaka.Player(videoElement);
     player.addEventListener('error', onErrorEvent);
 
-    // Configure DRM
+    // DRM config
     player.configure({ drm: { clearKeys: stream.keys } });
 
     try {
@@ -359,18 +408,14 @@ async function setupShakaPlayer(videoElement, stream) {
     }
 }
 
-// Setup HLS or fallback to native HLS
 async function setupHlsPlayer(videoElement, stream) {
     if (Hls.isSupported()) {
         const hls = new Hls();
         window.hls = hls;
-
         hls.attachMedia(videoElement);
-
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-            console.log('Video and hls.js are now bound together!');
+            console.log('Video and hls.js bound!');
             hls.loadSource(stream.url);
-
             hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
                 console.log(`Manifest loaded, found ${data.levels.length} quality levels`);
                 populateQualityOptionsHls(data.levels);
@@ -380,16 +425,15 @@ async function setupHlsPlayer(videoElement, stream) {
                 }
             });
         });
-
         hls.on(Hls.Events.ERROR, (event, data) => {
             console.error('HLS.js error:', data);
             showNotification('An error occurred while loading the video. Please try again.');
         });
     } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-        // Fallback for Safari or browsers with native HLS
+        // Native HLS (Safari)
         videoElement.src = stream.url;
         videoElement.addEventListener('loadedmetadata', () => {
-            console.log('Non-DRM stream loaded successfully (native HLS)!');
+            console.log('Non-DRM stream loaded (native HLS)!');
             populateQualityOptionsNative();
             clearNotification();
             if (document.getElementById('autoStart').checked) {
@@ -402,82 +446,61 @@ async function setupHlsPlayer(videoElement, stream) {
     }
 }
 
-// ========================
-//   Stream List Handling
-// ========================
+// ==============================
+//    Old List-based Stream Options
+// ==============================
 function populateStreamOptions() {
     const streamOptionsContainer = document.getElementById('streamOptions');
+    streamOptionsContainer.innerHTML = '';
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const showFavoritesOnly = document.getElementById('showFavorites').checked;
     const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
 
-    // Load favorites from localStorage
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-    // Clear current list
-    streamOptionsContainer.innerHTML = '';
-
-    // Build new list
-    Object.keys(streams).forEach((streamKey) => {
+    Object.keys(streams).forEach(streamKey => {
         const stream = streams[streamKey];
-        const isFavorite = favorites.includes(streamKey);
-
-        // Filter: show favorites only?
-        if (showFavoritesOnly && !isFavorite) return;
-
-        // Filter: search by name
+        if (showFavoritesOnly && !favorites.includes(streamKey)) return;
         if (!stream.name.toUpperCase().includes(searchFilter)) return;
 
-        // Create DOM node
-        const optionDiv = createStreamOption(streamKey, stream, isFavorite);
+        const optionDiv = document.createElement('div');
+        optionDiv.classList.add('option', 'stream-option');
+
+        const nameDiv = document.createElement('div');
+        nameDiv.classList.add('stream-name');
+        nameDiv.textContent = stream.name;
+        nameDiv.onclick = () => {
+            changeStream(streamKey);
+            closeAllSelect();
+        };
+
+        const favoriteIcon = document.createElement('span');
+        favoriteIcon.classList.add('favorite-icon');
+        favoriteIcon.textContent = favorites.includes(streamKey) ? '★' : '☆';
+        favoriteIcon.onclick = (e) => {
+            e.stopPropagation();
+            toggleFavorite(streamKey);
+        };
+
+        optionDiv.appendChild(nameDiv);
+        optionDiv.appendChild(favoriteIcon);
         streamOptionsContainer.appendChild(optionDiv);
     });
 }
 
-function createStreamOption(streamKey, stream, isFavorite) {
-    const optionDiv = document.createElement('div');
-    optionDiv.classList.add('option', 'stream-option');
-
-    // Stream name
-    const nameDiv = document.createElement('div');
-    nameDiv.classList.add('stream-name');
-    nameDiv.textContent = stream.name;
-    nameDiv.onclick = () => {
-        changeStream(streamKey);
-        closeAllSelect();
-    };
-
-    // Favorite icon
-    const favoriteIcon = document.createElement('span');
-    favoriteIcon.classList.add('favorite-icon');
-    favoriteIcon.textContent = isFavorite ? '★' : '☆';
-    favoriteIcon.onclick = (e) => {
-        e.stopPropagation(); // Prevent selecting the stream
-        toggleFavorite(streamKey);
-    };
-
-    optionDiv.appendChild(nameDiv);
-    optionDiv.appendChild(favoriteIcon);
-
-    return optionDiv;
-}
-
-// ========================
-//     Quality Controls
-// ========================
-
-// -- HLS-based Quality --
+// ==============================
+//    Quality Handling
+// ==============================
 function populateQualityOptionsHls(levels) {
     const qualitySelection = document.getElementById('qualitySelection');
     qualitySelection.innerHTML = '';
 
-    // Add 'Auto' option
+    // Auto
     const autoOption = document.createElement('div');
     autoOption.classList.add('option');
     autoOption.textContent = 'Auto';
     autoOption.onclick = () => changeQualityHls(-1);
     qualitySelection.appendChild(autoOption);
 
-    // Add levels
+    // Individual levels
     levels.forEach((level, index) => {
         const option = document.createElement('div');
         option.classList.add('option');
@@ -491,7 +514,6 @@ function populateQualityOptionsHls(levels) {
 
 function changeQualityHls(levelIndex) {
     if (!window.hls) return;
-
     window.hls.currentLevel = levelIndex;
     if (levelIndex === -1) {
         setQualitySelectLabel('Auto');
@@ -502,15 +524,12 @@ function changeQualityHls(levelIndex) {
     closeAllSelect();
 }
 
-// -- Shaka-based Quality --
 function populateQualityOptionsShaka() {
     if (!player) return;
-
     const tracks = player.getVariantTracks();
     const qualitySelection = document.getElementById('qualitySelection');
     qualitySelection.innerHTML = '';
 
-    // Add each track
     tracks.forEach((track) => {
         const option = document.createElement('div');
         option.classList.add('option');
@@ -524,22 +543,18 @@ function populateQualityOptionsShaka() {
 
 function changeQualityShaka(trackId) {
     if (!player) return;
-
     const tracks = player.getVariantTracks();
-    const selectedTrack = tracks.find((track) => track.id === trackId);
+    const selectedTrack = tracks.find(t => t.id === trackId);
     if (selectedTrack) {
-        player.selectVariantTrack(selectedTrack, /* clearBuffer= */ true);
+        player.selectVariantTrack(selectedTrack, true);
         setQualitySelectLabel(`${selectedTrack.height}p (${Math.round(selectedTrack.bandwidth / 1000)} kbps)`);
         closeAllSelect();
     }
 }
 
-// -- Native HLS --
 function populateQualityOptionsNative() {
-    // Native HLS does not expose quality levels
     const qualitySelection = document.getElementById('qualitySelection');
     qualitySelection.innerHTML = '';
-
     const option = document.createElement('div');
     option.classList.add('option');
     option.textContent = 'Default';
@@ -547,21 +562,18 @@ function populateQualityOptionsNative() {
         setQualitySelectLabel('Default');
         closeAllSelect();
     };
-
     qualitySelection.appendChild(option);
     setQualitySelectLabel('Default');
 }
 
-// Helper to set the text label for the quality dropdown
 function setQualitySelectLabel(labelText) {
     document.querySelector('#qualitySelectContainer .select-selected').textContent = labelText;
 }
 
-// ========================
+// ==============================
 //    UI Event Listeners
-// ========================
+// ==============================
 function setupEventListeners() {
-    // Select boxes
     const streamSelectContainer = document.getElementById('streamSelectContainer');
     streamSelectContainer
         .querySelector('.select-selected')
@@ -576,20 +588,23 @@ function setupEventListeners() {
             toggleSelect(this);
         });
 
-    // Close selects on outside click
     document.addEventListener('click', (e) => {
         if (!e.target.matches('.select-selected') && !e.target.matches('.favorite-icon')) {
             closeAllSelect();
         }
     });
 
-    // Favorites toggle
-    document.getElementById('showFavorites').addEventListener('change', populateStreamOptions);
-    // Search input
-    document.getElementById('streamSearch').addEventListener('input', populateStreamOptions);
+    // Favorites / Search
+    document.getElementById('showFavorites').addEventListener('change', () => {
+        populateStreamOptions();
+        generateStreamLibrary();
+    });
+    document.getElementById('streamSearch').addEventListener('input', () => {
+        populateStreamOptions();
+        generateStreamLibrary();
+    });
 }
 
-// Toggle open/close custom selects
 function toggleSelect(selectedElement) {
     closeAllSelect(selectedElement);
     selectedElement.nextElementSibling.classList.toggle('select-hide');
@@ -599,13 +614,11 @@ function toggleSelect(selectedElement) {
 function closeAllSelect(exceptElement) {
     const selectItems = document.querySelectorAll('.select-items');
     const selectSelected = document.querySelectorAll('.select-selected');
-
     selectItems.forEach((item) => {
         if (exceptElement !== item.previousElementSibling) {
             item.classList.add('select-hide');
         }
     });
-
     selectSelected.forEach((selected) => {
         if (exceptElement !== selected) {
             selected.classList.remove('select-arrow-active');
@@ -617,23 +630,24 @@ function updateStreamSelectedText(text) {
     document.querySelector('#streamSelectContainer .select-selected').textContent = text;
 }
 
-// ========================
-//       Favorites
-// ========================
+// ==============================
+//    Favorites
+// ==============================
 function toggleFavorite(streamKey) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     if (favorites.includes(streamKey)) {
-        favorites = favorites.filter((fav) => fav !== streamKey);
+        favorites = favorites.filter(fav => fav !== streamKey);
     } else {
         favorites.push(streamKey);
     }
     localStorage.setItem('favorites', JSON.stringify(favorites));
     populateStreamOptions();
+    generateStreamLibrary();
 }
 
-// ========================
-//      Dark Mode
-// ========================
+// ==============================
+//    Dark Mode
+// ==============================
 function initializeDarkMode() {
     const darkModeToggle = document.getElementById('darkModeToggle');
     const isDarkMode = localStorage.getItem('darkMode') === 'true';

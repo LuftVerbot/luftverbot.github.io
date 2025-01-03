@@ -11,7 +11,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f7fa;
     color: #333;
-    /* Smooth transitions for Dark Mode toggling */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -39,13 +38,9 @@ body {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    /* Fade-in animation */
     animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* ==============================
-   Video
-   ============================== */
 video {
     width: 100%;
     border-radius: 12px;
@@ -62,9 +57,6 @@ video {
     margin-bottom: 20px;
 }
 
-/* ==============================
-   Custom Selects
-   ============================== */
 .custom-select {
     position: relative;
     flex: 1;
@@ -77,7 +69,6 @@ video {
     border-radius: 6px;
     cursor: pointer;
     border: 1px solid #ced4da;
-    /* Add transitions for hover/focus states */
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -122,21 +113,6 @@ video {
     width: 100%;
 }
 
-/*
-   If you want a search icon in the input, uncomment this block
-   and place a background image or icon of your choice.
-   (Remember to adjust left padding in #streamSearch)
-
-.search-container::before {
-    content: '🔍';
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #aaa;
-}
-*/
-
 #streamSearch {
     width: 100%;
     padding: 12px;
@@ -150,9 +126,6 @@ video {
     border-color: #007bff;
 }
 
-/* ==============================
-   Toggles Container
-   ============================== */
 .toggles-container {
     display: flex;
     flex-wrap: wrap;
@@ -164,9 +137,6 @@ video {
     align-items: center;
 }
 
-/* ==============================
-   Toggle Switch
-   ============================== */
 .toggle-switch {
     position: relative;
     width: 50px;
@@ -217,9 +187,6 @@ input:checked + .slider:before {
     color: inherit;
 }
 
-/* ==============================
-   Notification
-   ============================== */
 #notification {
     margin-top: 20px;
     color: red;
@@ -227,37 +194,105 @@ input:checked + .slider:before {
 }
 
 /* ==============================
-   Stream Options
+   Netflix-Like Library Section
    ============================== */
-.stream-option {
+.stream-library {
+    display: grid;
+    gap: 20px;
+    /*
+       Instead of minmax(150px, 1fr), define a fixed card width (e.g. 150px).
+       Or use aspect-ratio if you want them responsive but with a fixed ratio.
+    */
+    grid-template-columns: repeat(auto-fill, 150px);
+    /*
+       If you want a fixed height for each row (instead of an aspect ratio),
+       set a fixed row height, e.g. 200px
+    */
+    grid-auto-rows: 100px;
+    margin: 20px 0;
+}
+
+
+/*
+   STREAM CARD: Enhanced with box shadow, hover effect,
+   and a gradient overlay on the title.
+*/
+.stream-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+    background-color: #ddd;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stream-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.stream-thumbnail-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    /* Remove any top padding that might push the text down */
+    padding: 0;
+}
+
+.stream-favorite-overlay {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.favorite-icon {
+    font-size: 1.3rem;
+    color: gold;
+    cursor: pointer;
+}
+
+/*
+   Title overlay with a gradient background for a stylish effect.
+   Feel free to adjust the gradient colors, transparency, or fonts.
+*/
+.stream-title-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    /* Subtle transition for hover scale */
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.stream-option:hover {
-    background-color: #f1f1f1;
-    transform: translateX(5px);
+.stream-title-overlay .stream-name {
+    font-size: 16px;
+    font-weight: 500;
 }
 
-.stream-option .stream-name {
-    flex-grow: 1;
-}
-
-.stream-option .favorite-icon {
-    margin-left: 10px;
+.stream-title-overlay .favorite-icon {
     font-size: 20px;
-    cursor: pointer;
     color: #ff9800;
+    margin-left: 8px;
     transition: color 0.3s ease;
 }
 
-.favorite-icon:hover {
+.stream-title-overlay .favorite-icon:hover {
     color: #ff5722;
+}
+
+/* Hide old .stream-option list approach if you prefer only the Netflix library */
+.stream-option {
+    display: none;
 }
 
 /* ==============================
@@ -308,29 +343,26 @@ body.dark-mode #notification {
     color: #ff6b6b;
 }
 
+/* Slightly darker card background & box shadow in dark mode */
+body.dark-mode .stream-card {
+    background: #444;
+    border-color: #666;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+body.dark-mode .stream-thumbnail-text {
+    color: #fff;
+}
+
 /* ==============================
-   Responsive Layout
+   Responsive Adjustments
    ============================== */
-
-/*
-   Adjust breakpoint as needed;
-   600px or 768px are common mobile widths.
-*/
 @media (max-width: 600px) {
-
-    /*
-       Reduce outer margins and padding
-       to use space more efficiently on small screens.
-    */
     .player-container {
         margin: 10px;
         padding: 15px;
     }
 
-    /*
-       Stack controls vertically
-       so each select gets full width.
-    */
     .controls-container {
         flex-direction: column;
     }
@@ -340,29 +372,19 @@ body.dark-mode #notification {
         margin-bottom: 10px;
     }
 
-    /*
-       Stack toggles and search box vertically
-       for better one-column layout.
-    */
     .toggles-container {
         flex-direction: column;
     }
 
-    /*
-       Increase the click/tap target
-       size for stream options on smaller screens.
-    */
-    .stream-option {
-        padding: 14px;
+    .stream-library {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
 
-    /*
-       Slightly larger text for easier reading.
-    */
-    .toggle-label,
-    .select-selected,
-    .custom-select div,
-    #streamSearch {
-        font-size: 16px;
+    .stream-title-overlay .stream-name {
+        font-size: 14px;
+    }
+
+    .stream-title-overlay .favorite-icon {
+        font-size: 18px;
     }
 }
