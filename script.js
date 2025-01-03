@@ -114,7 +114,7 @@ const streams = {
         keys: {
             '4f7fa9f0250a43cea8aebd8167f1fc81': 'f6bbc783b0e7a46a147e673a4347730a',
             '89787fecb0ac43ab86aa356054e2a183': 'f0153c6dc5c55c5f23fcdeed8241d5e4',
-            '581eba7045254d1de036557789932a05': 'f5c080517f6c4366b1930315a6aa70e7'
+            'f5c080517f6c4366b1930315a6aa70e7': '581eba7045254d1de036557789932a05'
         }
     },
     stream16: {
@@ -217,6 +217,20 @@ const streams = {
         url: 'https://linear205-de-dash1-prd-ak.cdn12.skycdp.com/032126-50/index_stereo.mpd',
         keys: {
             '000b4dd98709c99e7d3ca61284971da3': 'd37b0eafb4859024bfe415c37b967ce2'
+        }
+    },
+    stream30: {
+        name: 'Canal+ 360 HD',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_family/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=1&dvr=7200000',
+        keys: {
+            '84d509efbf613af2eac503248dfedff5': 'bff5e2d2e2c792087a83ea00e6db36ea'
+        }
+    },
+    stream31: {
+        name: 'Sky Sport Top Event',
+        url: 'https://linear202-de-dash1-prd-ak.cdn12.skycdp.com/035111-50/index_stereo.mpd',
+        keys: {
+            '000b3265e1f9d52374c6c4705a258f7a': 'd223e0fec55e0a22344d1cacb8cd2855'
         }
     }
 };
