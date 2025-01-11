@@ -221,27 +221,32 @@ const streams = {
         }
     },
     stream30: {
+        name: 'Sky Sport Bundesliga 6',
+        url: 'https://linear204-de-dash1-prd-ak.cdn12.skycdp.com/032127-50/index_stereo.mpd',
+        keys: {
+            '000b93f4cd3cf2e0a79b4f570de9064e': 'c04740423c9d905fb2b42c94984a07c2'
+        }
+    },
+    stream31: {
         name: 'Canal+ 360 HD',
         url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_family/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=1&dvr=7200000',
         keys: {
             '84d509efbf613af2eac503248dfedff5': 'bff5e2d2e2c792087a83ea00e6db36ea'
         }
     },
-    stream31: {
+    stream32: {
         name: 'Sky Sport Top Event',
         url: 'https://linear202-de-dash1-prd-ak.cdn12.skycdp.com/035111-50/index_stereo.mpd',
         keys: {
             '000b3265e1f9d52374c6c4705a258f7a': 'd223e0fec55e0a22344d1cacb8cd2855'
         }
     },
-    stream32: {
+    stream33: {
         name: 'DAZN 1',
         url: 'https://cars565.pricesaskeloadsc.com:443/global/dazn1de/index.m3u8?token=101b11e2b6e78dbb5935db6fb334d5a8bb3a5a65-bb-1735975040-1735939040'
     }
 };
 
-
-// Check browser support for Shaka
 if (shaka.Player.isBrowserSupported()) {
     initPlayer();
 } else {
