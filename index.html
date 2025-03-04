@@ -4,49 +4,58 @@
     <meta charset="UTF-8">
     <title>Lufts Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Shaka Player -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.compiled.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Load Shaka Player & HLS.js asynchronously -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.compiled.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="container">
+    <!-- Custom Video Player Container -->
+    <div class="player-container">
+        <div class="video-wrapper">
+            <!-- Remove native controls for a custom UI -->
+            <video id="video" preload="metadata"></video>
+            <!-- Elegant loading spinner for buffering -->
+            <div class="loading-spinner" id="loadingSpinner" hidden>
+                <div class="spinner"></div>
+            </div>
+        </div>
+        <!-- Custom Control Bar -->
+        <div class="video-controls" id="videoControls">
+            <button id="playPauseBtn" class="control-btn"><i class="icon icon-play"></i></button>
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="1">
+            <button id="fullscreenBtn" class="control-btn"><i class="icon icon-fullscreen"></i></button>
+        </div>
+    </div>
 
-<!-- Player & Controls Container -->
-<div class="player-container">
-
-    <!-- Video Player -->
-    <video id="video" controls></video>
-
-    <!-- Controls -->
+    <!-- Stream & Quality Selection -->
     <div class="controls-container">
-        <!-- Stream Selection (optional, or keep if desired) -->
         <div class="custom-select" id="streamSelectContainer">
             <div class="select-selected">Select Stream</div>
             <div class="select-items select-hide" id="streamOptions">
-                <!-- Original list-based stream options (hidden in Netflix mode) -->
+                <!-- Stream options will be injected here -->
             </div>
         </div>
 
-        <!-- Quality Selection -->
         <div class="custom-select" id="qualitySelectContainer">
             <div class="select-selected">Select Quality</div>
             <div class="select-items select-hide" id="qualitySelection">
-                <!-- Dynamically populated quality levels -->
+                <!-- Quality levels will be populated dynamically -->
             </div>
         </div>
     </div>
 
-    <!-- Search & Toggles -->
+    <!-- Search and Toggles -->
     <div class="options-container">
-        <!-- Search -->
         <div class="search-container">
             <input type="text" id="streamSearch" placeholder="Search Streams...">
         </div>
-
-        <!-- Toggles -->
         <div class="toggles-container">
-            <!-- Favorites Toggle -->
             <div class="toggle-item">
                 <label class="toggle-switch">
                     <input type="checkbox" id="showFavorites">
@@ -54,8 +63,6 @@
                 </label>
                 <span class="toggle-label">Show Favorites Only</span>
             </div>
-
-            <!-- Auto Start Toggle -->
             <div class="toggle-item">
                 <label class="toggle-switch">
                     <input type="checkbox" id="autoStart">
@@ -63,8 +70,6 @@
                 </label>
                 <span class="toggle-label">Auto Start</span>
             </div>
-
-            <!-- Dark Mode Toggle -->
             <div class="toggle-item">
                 <label class="toggle-switch">
                     <input type="checkbox" id="darkModeToggle">
@@ -77,16 +82,14 @@
 
     <!-- Notification Area -->
     <div id="notification"></div>
+
+    <!-- Netflix-Like Library -->
+    <div class="stream-library" id="streamLibrary">
+        <!-- Stream cards will be injected here -->
+    </div>
 </div>
 
-<!-- Netflix-like Library Grid -->
-<div class="stream-library" id="streamLibrary">
-    <!-- Stream cards will be injected here by JavaScript -->
-</div>
-
-<!-- ==============================
-     JavaScript
-     ============================== -->
-    <script src="script.js"></script>
+<!-- Custom JavaScript -->
+<script src="script.js" defer></script>
 </body>
 </html>

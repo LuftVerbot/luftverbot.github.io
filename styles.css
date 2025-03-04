@@ -1,6 +1,4 @@
-/* ==============================
-   Base Reset and Typography
-   ============================== */
+/* Base Reset and Typography */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,80 +7,129 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
-    color: #333;
+    background-color: #121212;
+    color: #e0e0e0;
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* ==============================
-   Keyframe Animations
-   ============================== */
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ==============================
-   Player Container
-   ============================== */
-.player-container {
-    max-width: 900px;
-    margin: 20px auto;
-    background: #fff;
     padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Video Player Container & Wrapper */
+.player-container {
+    background: #1e1e1e;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    animation: fadeInUp 0.5s ease-out forwards;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    overflow: hidden;
+    position: relative;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
 }
 
 video {
     width: 100%;
-    border-radius: 12px;
-    margin-bottom: 20px;
+    display: block;
 }
 
-/* ==============================
-   Controls Container
-   ============================== */
-.controls-container {
+/* Loading Spinner */
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #ffffff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Custom Video Controls */
+.video-controls {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: opacity 0.3s;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.progress-container {
+    flex: 1;
+    margin: 0 10px;
+    height: 5px;
+    background: #555;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #007bff;
+    transition: width 0.1s;
+}
+
+.volume-slider {
+    width: 80px;
+}
+
+/* Custom Select & Controls Containers */
+.controls-container, .options-container {
+    margin-top: 20px;
 }
 
 .custom-select {
     position: relative;
-    flex: 1;
+    margin-bottom: 10px;
 }
 
 .select-selected,
 .custom-select div {
-    background-color: #e9ecef;
+    background-color: #2c2c2c;
     padding: 12px;
     border-radius: 6px;
     cursor: pointer;
-    border: 1px solid #ced4da;
+    border: 1px solid #444;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .select-selected:hover {
-    background-color: #dee2e6;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #3a3a3a;
 }
 
 .select-items {
     position: absolute;
-    background-color: #fff;
-    border: 1px solid #ced4da;
+    background-color: #1e1e1e;
+    border: 1px solid #444;
     border-radius: 6px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
     z-index: 99;
     width: 100%;
     max-height: 200px;
@@ -92,36 +139,25 @@ video {
 
 .select-items .option:hover,
 .same-as-selected {
-    background-color: #f1f1f1;
+    background-color: #3a3a3a;
 }
 
 .select-hide {
     display: none;
 }
 
-/* ==============================
-   Options Container (Search, Toggles)
-   ============================== */
-.options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.search-container {
-    position: relative;
-    width: 100%;
-}
-
-#streamSearch {
+/* Search and Toggles */
+.search-container input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ced4da;
+    border: 1px solid #444;
     border-radius: 6px;
+    background: #1e1e1e;
+    color: #e0e0e0;
     transition: border-color 0.3s ease;
 }
 
-#streamSearch:focus {
+.search-container input:focus {
     outline: none;
     border-color: #007bff;
 }
@@ -130,6 +166,7 @@ video {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    margin-top: 10px;
 }
 
 .toggle-item {
@@ -152,7 +189,7 @@ video {
 .slider {
     position: absolute;
     cursor: pointer;
-    background-color: #ccc;
+    background-color: #555;
     border-radius: 26px;
     top: 0;
     left: 0;
@@ -166,7 +203,7 @@ video {
     content: "";
     height: 22px;
     width: 22px;
-    background-color: #fff;
+    background-color: #e0e0e0;
     border-radius: 50%;
     left: 2px;
     bottom: 2px;
@@ -183,65 +220,47 @@ input:checked + .slider:before {
 
 .toggle-label {
     margin-left: 10px;
-    font-size: 16px;
-    color: inherit;
 }
 
+/* Notification */
 #notification {
     margin-top: 20px;
-    color: red;
+    color: #ff6b6b;
     font-weight: bold;
 }
 
-/* ==============================
-   Netflix-Like Library Section
-   ============================== */
+/* Netflix-Like Library */
 .stream-library {
     display: grid;
     gap: 20px;
-    /*
-       Instead of minmax(150px, 1fr), define a fixed card width (e.g. 150px).
-       Or use aspect-ratio if you want them responsive but with a fixed ratio.
-    */
     grid-template-columns: repeat(auto-fill, 150px);
-    /*
-       If you want a fixed height for each row (instead of an aspect ratio),
-       set a fixed row height, e.g. 200px
-    */
     grid-auto-rows: 100px;
     margin: 20px 0;
 }
 
-
-/*
-   STREAM CARD: Enhanced with box shadow, hover effect,
-   and a gradient overlay on the title.
-*/
 .stream-card {
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 8px;
-    background-color: #ddd;
+    background-color: #2c2c2c;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .stream-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.7);
 }
 
 .stream-thumbnail-text {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #333;
+    color: #e0e0e0;
     text-align: center;
-    /* Remove any top padding that might push the text down */
     padding: 0;
 }
 
@@ -257,134 +276,26 @@ input:checked + .slider:before {
     cursor: pointer;
 }
 
-/*
-   Title overlay with a gradient background for a stylish effect.
-   Feel free to adjust the gradient colors, transparency, or fonts.
-*/
-.stream-title-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.stream-title-overlay .stream-name {
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.stream-title-overlay .favorite-icon {
+.icon {
+    font-family: Arial, sans-serif; /* or a specific icon font like Font Awesome */
     font-size: 20px;
-    color: #ff9800;
-    margin-left: 8px;
-    transition: color 0.3s ease;
+}
+.icon-fullscreen::before {
+    content: '⛶'; /* Unicode for fullscreen */
+}
+.icon-exit-fullscreen::before {
+    content: '✕'; /* Unicode for exit fullscreen */
 }
 
-.stream-title-overlay .favorite-icon:hover {
-    color: #ff5722;
-}
-
-/* Hide old .stream-option list approach if you prefer only the Netflix library */
-.stream-option {
-    display: none;
-}
-
-/* ==============================
-   Dark Mode
-   ============================== */
-body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-}
-
-body.dark-mode .player-container {
-    background-color: #1e1e1e;
-    color: #ffffff;
-}
-
-body.dark-mode .select-selected,
-body.dark-mode .custom-select div,
-body.dark-mode .select-items div {
-    background-color: #2c2c2c;
-    color: #ffffff;
-    border: 1px solid #444;
-}
-
-body.dark-mode .select-items .option:hover,
-body.dark-mode .same-as-selected {
-    background-color: #3a3a3a;
-}
-
-body.dark-mode #streamSearch {
-    background-color: #2c2c2c;
-    color: #ffffff;
-    border: 1px solid #444;
-}
-
-body.dark-mode .toggle-label {
-    color: #ffffff;
-}
-
-body.dark-mode .slider {
-    background-color: #555;
-}
-
-body.dark-mode input:checked + .slider {
-    background-color: #2196F3;
-}
-
-body.dark-mode #notification {
-    color: #ff6b6b;
-}
-
-/* Slightly darker card background & box shadow in dark mode */
-body.dark-mode .stream-card {
-    background: #444;
-    border-color: #666;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
-}
-
-body.dark-mode .stream-thumbnail-text {
-    color: #fff;
-}
-
-/* ==============================
-   Responsive Adjustments
-   ============================== */
+/* Responsive Adjustments */
 @media (max-width: 600px) {
     .player-container {
         margin: 10px;
-        padding: 15px;
     }
-
-    .controls-container {
-        flex-direction: column;
-    }
-
     .custom-select {
         width: 100%;
-        margin-bottom: 10px;
     }
-
-    .toggles-container {
-        flex-direction: column;
-    }
-
     .stream-library {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-
-    .stream-title-overlay .stream-name {
-        font-size: 14px;
-    }
-
-    .stream-title-overlay .favorite-icon {
-        font-size: 18px;
     }
 }

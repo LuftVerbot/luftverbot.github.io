@@ -1,7 +1,4 @@
-// Install polyfills for Shaka
-shaka.polyfill.installAll();
-
-// Global variables
+// Global variables for players and streams
 let player = null;
 window.hls = null;
 
@@ -244,125 +241,36 @@ const streams = {
     stream33: {
         name: 'DAZN 1',
         url: 'https://cars565.pricesaskeloadsc.com:443/global/dazn1de/index.m3u8?token=101b11e2b6e78dbb5935db6fb334d5a8bb3a5a65-bb-1735975040-1735939040'
+    },
+    stream34: {
+        name: 'TNT 2',
+        url: 'https://51a.pricesaskeloadsc.com:443/global/tnt_2_gb/index.m3u8?token=9351c6dce769ed1fae4d52dd152084bf45860d5c-11-1741115154-1741082754'
     }
 };
 
-if (shaka.Player.isBrowserSupported()) {
-    initPlayer();
-} else {
-    console.error('Browser not supported!');
-    alert('Your browser is not supported!');
-}
-
-async function initPlayer() {
-    const video = document.getElementById('video');
-    player = new shaka.Player(video);
-    window.player = player;
-    player.addEventListener('error', onErrorEvent);
-
-    // Initialize UI
+// Wait for the DOM to load before initializing
+document.addEventListener('DOMContentLoaded', () => {
     initializeDarkMode();
+    setupCustomVideoControls();
     setupEventListeners();
-
-    // Build Netflix-like library
     generateStreamLibrary();
-
-    // Populate old select-based stream list if you still want it
     populateStreamOptions();
 
-    // Load the default stream
+    // Load default stream
     const defaultStreamKey = Object.keys(streams)[0];
-    await changeStream(defaultStreamKey);
-    updateStreamSelectedText(streams[defaultStreamKey].name);
-}
+    changeStream(defaultStreamKey);
+});
 
 // ==============================
-//    Netflix-like Library
+//      Stream & Player Logic
 // ==============================
-function generateStreamLibrary() {
-    const libraryContainer = document.getElementById('streamLibrary');
-    libraryContainer.innerHTML = ''; // Clear any existing
-
-    // Load favorites from localStorage (used to mark the star icon)
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-    // Search filter and favorites toggle
-    const showFavoritesOnly = document.getElementById('showFavorites').checked;
-    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
-
-    // Loop over streams
-    Object.keys(streams).forEach((streamKey) => {
-        const stream = streams[streamKey];
-        const isFavorite = favorites.includes(streamKey);
-
-        // Check favorites-only filter
-        if (showFavoritesOnly && !isFavorite) return;
-
-        // Check search filter
-        if (!stream.name.toUpperCase().includes(searchFilter)) return;
-
-        // Create card
-        const card = document.createElement('div');
-        card.classList.add('stream-card');
-
-        // Instead of an image/thumbnail, just display the stream name directly
-        const namePlaceholder = document.createElement('div');
-        namePlaceholder.classList.add('stream-thumbnail-text');
-        namePlaceholder.textContent = stream.name;
-        card.appendChild(namePlaceholder);
-
-        // Create an overlay for the star icon (favorites)
-        const overlay = document.createElement('div');
-        overlay.classList.add('stream-favorite-overlay');
-
-        // Favorite icon
-        const favIcon = document.createElement('div');
-        favIcon.classList.add('favorite-icon');
-        favIcon.textContent = isFavorite ? '★' : '☆';
-        favIcon.onclick = (e) => {
-            e.stopPropagation();
-            toggleFavorite(streamKey);
-        };
-
-        overlay.appendChild(favIcon);
-
-        // Add event to load stream on card click
-        card.onclick = () => {
-            changeStream(streamKey);
-        };
-
-        // Append overlay to card
-        card.appendChild(overlay);
-
-        // Add card to library
-        libraryContainer.appendChild(card);
-    });
-}
-
-// ==============================
-//    Stream & Player Logic
-// ==============================
-function onErrorEvent(event) {
-    console.error('Error code', event.detail.code, 'object', event.detail);
-    showNotification('An error occurred while loading the video. Please try again.');
-}
-
-function showNotification(message) {
-    document.getElementById('notification').textContent = message;
-}
-
-function clearNotification() {
-    document.getElementById('notification').textContent = '';
-}
-
 async function changeStream(streamKey) {
     const selectedStream = streams[streamKey];
     const videoElement = document.getElementById('video');
 
-    // Destroy existing players
     await destroyPlayers();
 
-    // If keys exist -> Shaka (DRM), otherwise -> HLS / native
+    // Use Shaka if DRM keys exist; otherwise use HLS / native playback
     if (selectedStream.keys) {
         await setupShakaPlayer(videoElement, selectedStream);
     } else {
@@ -392,21 +300,45 @@ async function destroyPlayers() {
     }
 }
 
+function onErrorEvent(event) {
+    console.error('Error:', event.detail);
+    showNotification('An error occurred while loading the video. Please try again.');
+}
+
+function showNotification(message) {
+    document.getElementById('notification').textContent = message;
+}
+
+function clearNotification() {
+    document.getElementById('notification').textContent = '';
+}
+
+function showLoadingSpinner() {
+    document.getElementById('loadingSpinner').hidden = false;
+}
+
+function hideLoadingSpinner() {
+    document.getElementById('loadingSpinner').hidden = true;
+}
+
+// ==============================
+//      Shaka & HLS Setup
+// ==============================
 async function setupShakaPlayer(videoElement, stream) {
+    showLoadingSpinner();
     shaka.polyfill.installAll();
     player = new shaka.Player(videoElement);
     player.addEventListener('error', onErrorEvent);
-
-    // DRM config
     player.configure({ drm: { clearKeys: stream.keys } });
 
     try {
         await player.load(stream.url);
-        console.log('DRM-protected stream loaded successfully!');
         populateQualityOptionsShaka();
         clearNotification();
+        hideLoadingSpinner();
         if (document.getElementById('autoStart').checked) {
             videoElement.play();
+            updatePlayPauseButton();
         }
     } catch (error) {
         onErrorEvent({ detail: error });
@@ -414,19 +346,20 @@ async function setupShakaPlayer(videoElement, stream) {
 }
 
 async function setupHlsPlayer(videoElement, stream) {
+    showLoadingSpinner();
     if (Hls.isSupported()) {
         const hls = new Hls();
         window.hls = hls;
         hls.attachMedia(videoElement);
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-            console.log('Video and hls.js bound!');
             hls.loadSource(stream.url);
             hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
-                console.log(`Manifest loaded, found ${data.levels.length} quality levels`);
                 populateQualityOptionsHls(data.levels);
                 clearNotification();
+                hideLoadingSpinner();
                 if (document.getElementById('autoStart').checked) {
                     videoElement.play();
+                    updatePlayPauseButton();
                 }
             });
         });
@@ -435,14 +368,14 @@ async function setupHlsPlayer(videoElement, stream) {
             showNotification('An error occurred while loading the video. Please try again.');
         });
     } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-        // Native HLS (Safari)
         videoElement.src = stream.url;
         videoElement.addEventListener('loadedmetadata', () => {
-            console.log('Non-DRM stream loaded (native HLS)!');
             populateQualityOptionsNative();
             clearNotification();
+            hideLoadingSpinner();
             if (document.getElementById('autoStart').checked) {
                 videoElement.play();
+                updatePlayPauseButton();
             }
         });
     } else {
@@ -452,43 +385,94 @@ async function setupHlsPlayer(videoElement, stream) {
 }
 
 // ==============================
-//    Old List-based Stream Options
+//      Custom Video Controls
 // ==============================
-function populateStreamOptions() {
-    const streamOptionsContainer = document.getElementById('streamOptions');
-    streamOptionsContainer.innerHTML = '';
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const showFavoritesOnly = document.getElementById('showFavorites').checked;
-    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
+function setupCustomVideoControls() {
+    const video = document.getElementById('video');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
 
-    Object.keys(streams).forEach(streamKey => {
-        const stream = streams[streamKey];
-        if (showFavoritesOnly && !favorites.includes(streamKey)) return;
-        if (!stream.name.toUpperCase().includes(searchFilter)) return;
-
-        const optionDiv = document.createElement('div');
-        optionDiv.classList.add('option', 'stream-option');
-
-        const nameDiv = document.createElement('div');
-        nameDiv.classList.add('stream-name');
-        nameDiv.textContent = stream.name;
-        nameDiv.onclick = () => {
-            changeStream(streamKey);
-            closeAllSelect();
-        };
-
-        const favoriteIcon = document.createElement('span');
-        favoriteIcon.classList.add('favorite-icon');
-        favoriteIcon.textContent = favorites.includes(streamKey) ? '★' : '☆';
-        favoriteIcon.onclick = (e) => {
-            e.stopPropagation();
-            toggleFavorite(streamKey);
-        };
-
-        optionDiv.appendChild(nameDiv);
-        optionDiv.appendChild(favoriteIcon);
-        streamOptionsContainer.appendChild(optionDiv);
+    playPauseBtn.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+        updatePlayPauseButton();
     });
+
+    video.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+        updatePlayPauseButton();
+    });
+
+    video.addEventListener('timeupdate', () => {
+        const progressPercent = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+    });
+
+    progressContainer.addEventListener('click', (e) => {
+        const rect = progressContainer.getBoundingClientRect();
+        const clickPos = e.clientX - rect.left;
+        const clickPercent = clickPos / rect.width;
+        video.currentTime = clickPercent * video.duration;
+    });
+
+    volumeSlider.addEventListener('input', () => {
+        video.volume = volumeSlider.value;
+    });
+
+    // Updated Fullscreen Button: toggles fullscreen on the player container
+    fullscreenBtn.addEventListener('click', () => {
+        const container = document.querySelector('.player-container');
+        if (!document.fullscreenElement) {
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    });
+
+    // Listen for fullscreen changes to update the icon accordingly
+    document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) {
+            fullscreenBtn.innerHTML = '<i class="icon icon-exit-fullscreen"></i>';
+        } else {
+            fullscreenBtn.innerHTML = '<i class="icon icon-fullscreen"></i>';
+        }
+    });
+
+    // Auto-hide controls when mouse is inactive over the player
+    let controlTimeout;
+    const videoContainer = document.querySelector('.player-container');
+    videoContainer.addEventListener('mousemove', () => {
+        document.getElementById('videoControls').style.opacity = 1;
+        clearTimeout(controlTimeout);
+        controlTimeout = setTimeout(() => {
+            document.getElementById('videoControls').style.opacity = 0;
+        }, 3000);
+    });
+}
+
+function updatePlayPauseButton() {
+    const video = document.getElementById('video');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const icon = playPauseBtn.querySelector('i');
+    icon.className = video.paused ? 'icon icon-play' : 'icon icon-pause';
 }
 
 // ==============================
@@ -498,14 +482,12 @@ function populateQualityOptionsHls(levels) {
     const qualitySelection = document.getElementById('qualitySelection');
     qualitySelection.innerHTML = '';
 
-    // Auto
     const autoOption = document.createElement('div');
     autoOption.classList.add('option');
     autoOption.textContent = 'Auto';
     autoOption.onclick = () => changeQualityHls(-1);
     qualitySelection.appendChild(autoOption);
 
-    // Individual levels
     levels.forEach((level, index) => {
         const option = document.createElement('div');
         option.classList.add('option');
@@ -576,7 +558,113 @@ function setQualitySelectLabel(labelText) {
 }
 
 // ==============================
-//    UI Event Listeners
+//     Custom Select Handling
+// ==============================
+function populateStreamOptions() {
+    const streamOptionsContainer = document.getElementById('streamOptions');
+    streamOptionsContainer.innerHTML = '';
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const showFavoritesOnly = document.getElementById('showFavorites').checked;
+    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
+
+    Object.keys(streams).forEach(streamKey => {
+        const stream = streams[streamKey];
+        if (showFavoritesOnly && !favorites.includes(streamKey)) return;
+        if (!stream.name.toUpperCase().includes(searchFilter)) return;
+
+        const optionDiv = document.createElement('div');
+        optionDiv.classList.add('option', 'stream-option');
+
+        const nameDiv = document.createElement('div');
+        nameDiv.classList.add('stream-name');
+        nameDiv.textContent = stream.name;
+        nameDiv.onclick = () => {
+            changeStream(streamKey);
+            closeAllSelect();
+        };
+
+        const favoriteIcon = document.createElement('span');
+        favoriteIcon.classList.add('favorite-icon');
+        favoriteIcon.textContent = favorites.includes(streamKey) ? '★' : '☆';
+        favoriteIcon.onclick = (e) => {
+            e.stopPropagation();
+            toggleFavorite(streamKey);
+        };
+
+        optionDiv.appendChild(nameDiv);
+        optionDiv.appendChild(favoriteIcon);
+        streamOptionsContainer.appendChild(optionDiv);
+    });
+}
+
+function generateStreamLibrary() {
+    const libraryContainer = document.getElementById('streamLibrary');
+    libraryContainer.innerHTML = '';
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const showFavoritesOnly = document.getElementById('showFavorites').checked;
+    const searchFilter = document.getElementById('streamSearch').value.toUpperCase();
+
+    Object.keys(streams).forEach(streamKey => {
+        const stream = streams[streamKey];
+        const isFavorite = favorites.includes(streamKey);
+        if (showFavoritesOnly && !isFavorite) return;
+        if (!stream.name.toUpperCase().includes(searchFilter)) return;
+
+        const card = document.createElement('div');
+        card.classList.add('stream-card');
+
+        const namePlaceholder = document.createElement('div');
+        namePlaceholder.classList.add('stream-thumbnail-text');
+        namePlaceholder.textContent = stream.name;
+        card.appendChild(namePlaceholder);
+
+        const overlay = document.createElement('div');
+        overlay.classList.add('stream-favorite-overlay');
+
+        const favIcon = document.createElement('div');
+        favIcon.classList.add('favorite-icon');
+        favIcon.textContent = isFavorite ? '★' : '☆';
+        favIcon.onclick = (e) => {
+            e.stopPropagation();
+            toggleFavorite(streamKey);
+        };
+
+        overlay.appendChild(favIcon);
+        card.onclick = () => {
+            changeStream(streamKey);
+        };
+        card.appendChild(overlay);
+        libraryContainer.appendChild(card);
+    });
+}
+
+function closeAllSelect(exceptElement) {
+    const selectItems = document.querySelectorAll('.select-items');
+    const selectSelected = document.querySelectorAll('.select-selected');
+    selectItems.forEach((item) => {
+        if (exceptElement !== item.previousElementSibling) {
+            item.classList.add('select-hide');
+        }
+    });
+    selectSelected.forEach((selected) => {
+        if (exceptElement !== selected) {
+            selected.classList.remove('select-arrow-active');
+        }
+    });
+}
+
+function toggleSelect(selectedElement) {
+    closeAllSelect(selectedElement);
+    selectedElement.nextElementSibling.classList.toggle('select-hide');
+    selectedElement.classList.toggle('select-arrow-active');
+}
+
+function updateStreamSelectedText(text) {
+    document.querySelector('#streamSelectContainer .select-selected').textContent = text;
+}
+
+// ==============================
+//       UI Event Listeners
 // ==============================
 function setupEventListeners() {
     const streamSelectContainer = document.getElementById('streamSelectContainer');
@@ -610,48 +698,8 @@ function setupEventListeners() {
     });
 }
 
-function toggleSelect(selectedElement) {
-    closeAllSelect(selectedElement);
-    selectedElement.nextElementSibling.classList.toggle('select-hide');
-    selectedElement.classList.toggle('select-arrow-active');
-}
-
-function closeAllSelect(exceptElement) {
-    const selectItems = document.querySelectorAll('.select-items');
-    const selectSelected = document.querySelectorAll('.select-selected');
-    selectItems.forEach((item) => {
-        if (exceptElement !== item.previousElementSibling) {
-            item.classList.add('select-hide');
-        }
-    });
-    selectSelected.forEach((selected) => {
-        if (exceptElement !== selected) {
-            selected.classList.remove('select-arrow-active');
-        }
-    });
-}
-
-function updateStreamSelectedText(text) {
-    document.querySelector('#streamSelectContainer .select-selected').textContent = text;
-}
-
 // ==============================
-//    Favorites
-// ==============================
-function toggleFavorite(streamKey) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    if (favorites.includes(streamKey)) {
-        favorites = favorites.filter(fav => fav !== streamKey);
-    } else {
-        favorites.push(streamKey);
-    }
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    populateStreamOptions();
-    generateStreamLibrary();
-}
-
-// ==============================
-//    Dark Mode
+//         Dark Mode
 // ==============================
 function initializeDarkMode() {
     const darkModeToggle = document.getElementById('darkModeToggle');
@@ -664,4 +712,19 @@ function initializeDarkMode() {
         document.body.classList.toggle('dark-mode', this.checked);
         localStorage.setItem('darkMode', this.checked);
     });
+}
+
+// ==============================
+//         Favorites
+// ==============================
+function toggleFavorite(streamKey) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (favorites.includes(streamKey)) {
+        favorites = favorites.filter(fav => fav !== streamKey);
+    } else {
+        favorites.push(streamKey);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    populateStreamOptions();
+    generateStreamLibrary();
 }
