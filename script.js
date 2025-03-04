@@ -385,7 +385,7 @@ async function setupHlsPlayer(videoElement, stream) {
 }
 
 // ==============================
-//      Custom Video Controls
+//     Custom Video Controls
 // ==============================
 function setupCustomVideoControls() {
     const video = document.getElementById('video');
@@ -429,7 +429,7 @@ function setupCustomVideoControls() {
         video.volume = volumeSlider.value;
     });
 
-    // Updated Fullscreen Button: toggles fullscreen on the player container
+    // Fullscreen button toggles fullscreen on the entire player container
     fullscreenBtn.addEventListener('click', () => {
         const container = document.querySelector('.player-container');
         if (!document.fullscreenElement) {
@@ -447,16 +447,16 @@ function setupCustomVideoControls() {
         }
     });
 
-    // Listen for fullscreen changes to update the icon accordingly
+    // Listen for fullscreen changes to update the button text
     document.addEventListener('fullscreenchange', () => {
         if (document.fullscreenElement) {
-            fullscreenBtn.innerHTML = '<i class="icon icon-exit-fullscreen"></i>';
+            fullscreenBtn.textContent = '✕';
         } else {
-            fullscreenBtn.innerHTML = '<i class="icon icon-fullscreen"></i>';
+            fullscreenBtn.textContent = '⛶';
         }
     });
 
-    // Auto-hide controls when mouse is inactive over the player
+    // Auto-hide controls on inactivity
     let controlTimeout;
     const videoContainer = document.querySelector('.player-container');
     videoContainer.addEventListener('mousemove', () => {
@@ -471,8 +471,7 @@ function setupCustomVideoControls() {
 function updatePlayPauseButton() {
     const video = document.getElementById('video');
     const playPauseBtn = document.getElementById('playPauseBtn');
-    const icon = playPauseBtn.querySelector('i');
-    icon.className = video.paused ? 'icon icon-play' : 'icon icon-pause';
+    playPauseBtn.textContent = video.paused ? '⏯' : '⏸';
 }
 
 // ==============================
@@ -664,7 +663,7 @@ function updateStreamSelectedText(text) {
 }
 
 // ==============================
-//       UI Event Listeners
+//         UI Event Listeners
 // ==============================
 function setupEventListeners() {
     const streamSelectContainer = document.getElementById('streamSelectContainer');

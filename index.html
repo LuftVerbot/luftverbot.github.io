@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Lufts Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Font for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Load Shaka Player & HLS.js asynchronously -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.compiled.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
@@ -15,21 +17,19 @@
     <!-- Custom Video Player Container -->
     <div class="player-container">
         <div class="video-wrapper">
-            <!-- Remove native controls for a custom UI -->
             <video id="video" preload="metadata"></video>
-            <!-- Elegant loading spinner for buffering -->
             <div class="loading-spinner" id="loadingSpinner" hidden>
                 <div class="spinner"></div>
             </div>
         </div>
         <!-- Custom Control Bar -->
         <div class="video-controls" id="videoControls">
-            <button id="playPauseBtn" class="control-btn"><i class="icon icon-play"></i></button>
+            <button id="playPauseBtn" class="control-btn">⏯</button>
             <div class="progress-container" id="progressContainer">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
             <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="1">
-            <button id="fullscreenBtn" class="control-btn"><i class="icon icon-fullscreen"></i></button>
+            <button id="fullscreenBtn" class="control-btn">⛶</button>
         </div>
     </div>
 
@@ -37,16 +37,12 @@
     <div class="controls-container">
         <div class="custom-select" id="streamSelectContainer">
             <div class="select-selected">Select Stream</div>
-            <div class="select-items select-hide" id="streamOptions">
-                <!-- Stream options will be injected here -->
-            </div>
+            <div class="select-items select-hide" id="streamOptions"></div>
         </div>
 
         <div class="custom-select" id="qualitySelectContainer">
             <div class="select-selected">Select Quality</div>
-            <div class="select-items select-hide" id="qualitySelection">
-                <!-- Quality levels will be populated dynamically -->
-            </div>
+            <div class="select-items select-hide" id="qualitySelection"></div>
         </div>
     </div>
 
@@ -84,9 +80,7 @@
     <div id="notification"></div>
 
     <!-- Netflix-Like Library -->
-    <div class="stream-library" id="streamLibrary">
-        <!-- Stream cards will be injected here -->
-    </div>
+    <div class="stream-library" id="streamLibrary"></div>
 </div>
 
 <!-- Custom JavaScript -->
