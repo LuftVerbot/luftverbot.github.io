@@ -243,8 +243,16 @@ const streams = {
         url: 'https://cars565.pricesaskeloadsc.com:443/global/dazn1de/index.m3u8?token=101b11e2b6e78dbb5935db6fb334d5a8bb3a5a65-bb-1735975040-1735939040'
     },
     stream34: {
-        name: 'TNT 2',
+        name: 'TNT Sports 2',
         url: 'https://51a.pricesaskeloadsc.com:443/global/tnt_2_gb/index.m3u8?token=9351c6dce769ed1fae4d52dd152084bf45860d5c-11-1741115154-1741082754'
+    },
+    stream35: {
+        name: 'Sky Cricket',
+        url: 'https://98ca.pricesaskeloadsc.com:443/global/skycricket/index.m3u8?token=f4cf1f36aaf86960aaa0bc1a038ead7ac9307009-40-1741116221-1741083821'
+    },
+    stream36: {
+        name: 'TNT Sports 4',
+        url: 'https://doc.pricesaskeloadsc.com:443/global/tnt_4_gb/index.m3u8?token=25be8b89e6cf1c3837724641a17a0ef411c763ba-64-1741116380-1741083980'
     }
 };
 
