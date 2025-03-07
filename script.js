@@ -60,7 +60,7 @@ const streams = {
         }
     },
     stream8: {
-        name: 'Canal+ Sport5 HD',
+        name: 'Canal+ Sport 5 HD',
         url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport5/hd2-dashdrm02/CplusSport5.mpd',
         keys: {
             '4cea0821d1824cafa0635743a6d97778': '924faa02e646007d6f84af2939792d85',
@@ -112,7 +112,7 @@ const streams = {
         }
     },
     stream15: {
-        name: 'Canal+ Sport2 HD',
+        name: 'Canal+ Sport 2 HD',
         url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport2HD/hd2-dashdrm02/CplusSport2HD.mpd',
         keys: {
             '4f7fa9f0250a43cea8aebd8167f1fc81': 'f6bbc783b0e7a46a147e673a4347730a',
@@ -129,16 +129,22 @@ const streams = {
     },
     stream17: {
         name: 'Eleven Sports 2',
-        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11_sports/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/11Sports2/hd2-dashdrm02/11Sports2.mpd',
         keys: {
-            'db4e84001a1e4fc3bf2612dc154dd75d': 'ad535148efdde938b29be16c9ab95134'
+            '8331b6fdb5d14cdb82ff4895b997704c': '2efbc6cd610345be9401fafd818c4dc4',
+            '71be6f968ab54a8bb847b58bbc7c628e': '3dd907fffdbffd7ec01b4025ad97ec6a',
+            '4e1df327c661472f96319dd7e98bf5bd': '36263f85c3c25a131f47cee90924e1f3',
+            '147736fc9f244d0ca8bc3f2169acec8e': '3d1c1f5044392378b5c05f29899920a1'
         }
     },
     stream18: {
         name: 'Eleven Sports 3',
-        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11_extra/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/11Sports3/hd2-dashdrm02/11Sports3.mpd',
         keys: {
-            '65c9e7e73a314bacb570514a605ea306': '91c84c5a2af36c16e20397da599a6e94'
+            '55b19ea29fdd4c96825531f96a504df1': 'a6ec613e0eadfb923ff816e4c8c68a4a',
+            'ce125d7af48a45799d671941125ed55e': '973599517f31f3b4327fa975f549ed2b',
+            '1de6210c1b064b928c5bb003da7023e5': 'd1eb59b178c89539d7caf1022968107e',
+            '696c7203cea54375a2433c8be361f6ed': '39e60bf9f0154884f5039d8e6cc47601'
         }
     },
     stream19: {
@@ -251,6 +257,10 @@ const streams = {
         keys: {
             'c18b6aa739be4c0b774605fcfb5d6b68': 'e41c3a6f7532b2e3a828d9580124c89d'
         }
+    },
+    stream34: {
+        name: 'Arena Sport 4',
+        url: 'https://ca8s9.pricesaskeloadsc.com:443/global/tnt_2_gb/index.m3u8?token=ae9d32a78b3abfede6b6cb57857416e419dcea00-47-1741405064-1741372664',
     }
 };
 
