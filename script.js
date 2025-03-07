@@ -21,6 +21,7 @@ const streams = {
     stream3: {
         name: 'Polsat Sport 1',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1456452/129/dash/ffe2048f/live.mpd',
+        fallbackUrl: 'https://love2live.wideiptv.top/POLSATSPORTPL/index.fmp4.m3u8?token=006a72085f84663d7d80fa280a30eada18da4d83-e5f37b866fc458abcd046194b641f462-1741387866-1741377066',
         keys: {
             '590abbe92e6e470a9e355d58ec910709': '0af2b5f2450474207f6761adc9dc635e'
         }
@@ -28,6 +29,7 @@ const streams = {
     stream4: {
         name: 'Polsat Sport 2',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1455745/96/dash/3880d03f/live.mpd',
+        fallbackUrl: 'https://love2live.wideiptv.top/POLSATSPORTEXTRA/index.fmp4.m3u8?token=b7e5a10ff3ff8e4262e3a37ae4f8b24a5e8e772a-4575f2cbe1de3818cf5ef8c9b18cac02-1741387914-1741377114',
         keys: {
             '3201accccbe9455cbc28dcd4bcdf1509': 'f4d9a50f98ea833d2e5120d83bd59a23'
         }
@@ -35,6 +37,7 @@ const streams = {
     stream5: {
         name: 'Polsat Sport 3',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1455832/117/dash/790ff37c/live.mpd',
+        fallbackUrl: 'https://love2live.wideiptv.top/POLSATSPORTNEWS/index.fmp4.m3u8?token=1c968035bac61ce22e279b61da7c11eef135ab0e-82f60e5a39f1e448db321c889c375481-1741388001-1741377201',
         keys: {
             '03ddf71c8dae4e8d8b171fb81ecfe609': 'fc80cf8969cf1b3c2c061eadb94e1330'
         }
@@ -51,6 +54,7 @@ const streams = {
     stream7: {
         name: 'Polsat Sport Premium 1 Super HD',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1459449/266/dash/edb3b20d/live.mpd',
+        fallbackUrl: 'https://love2live.wideiptv.top/PolsatSportPremium1/index.fmp4.m3u8?token=6f48eaa909961cae0029937a747a0b12b681e94f-adb6432240cf23322f6cc2602884cbba-1741387445-1741376645',
         keys: {
             '8eb4a9586edf4b0cade4b5725fd55209': '54caa4e2142cf691af9bb6028545afc6'
         }
@@ -88,6 +92,7 @@ const streams = {
     stream12: {
         name: 'Polsat Sport Premium 2 Super HD',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1459450/267/dash/c0858178/live.mpd',
+        fallbackUrl: 'https://love2live.wideiptv.top/PolsatSportPremium2/index.fmp4.m3u8?token=5b4def00c47583a32dec2cbb5c2877b5fc87f4f6-4e42a96bc2a3a8f279f4adb7443b3a93-1741387807-1741377007',
         keys: {
             '6a20b49be4db4f328e4bb48853124109': 'f32c1c3c983354bcafb0f2ccb8a59835'
         }
@@ -177,9 +182,11 @@ const streams = {
     },
     stream24: {
         name: 'Eleven Sports 1',
-        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11/live.isml/playlist.mpd?indexMode=&dummyfile=&server_side_events=0&dvr=7200000',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/11Sports1/hd2-dashdrm02/11Sports1.mpd',
         keys: {
-            '3bdddc3ae3bb43b7a93d6ff72991e5dc': '9a1ca978d3bb5fe1300696f9683567eb'
+            '9d042fa273964e24a9109e23f4e313cc': '540e3601e1b82192c76c7411ad9c8c8e',
+            '014e7cf40d9e490a812964f4aa72449e': '01b8caafb230eb2a07cc965d54ef4441',
+            'cf513b83f32d4234a7b4982ae9ca3161': '68293d1b7143588339baeaedbe3939d9'
         }
     },
     stream25: {
@@ -239,20 +246,11 @@ const streams = {
         }
     },
     stream33: {
-        name: 'DAZN 1',
-        url: 'https://cars565.pricesaskeloadsc.com:443/global/dazn1de/index.m3u8?token=101b11e2b6e78dbb5935db6fb334d5a8bb3a5a65-bb-1735975040-1735939040'
-    },
-    stream34: {
-        name: 'TNT Sports 2',
-        url: 'https://51a.pricesaskeloadsc.com:443/global/tnt_2_gb/index.m3u8?token=9351c6dce769ed1fae4d52dd152084bf45860d5c-11-1741115154-1741082754'
-    },
-    stream35: {
-        name: 'Sky Cricket',
-        url: 'https://98ca.pricesaskeloadsc.com:443/global/skycricket/index.m3u8?token=f4cf1f36aaf86960aaa0bc1a038ead7ac9307009-40-1741116221-1741083821'
-    },
-    stream36: {
-        name: 'TNT Sports 4',
-        url: 'https://doc.pricesaskeloadsc.com:443/global/tnt_4_gb/index.m3u8?token=25be8b89e6cf1c3837724641a17a0ef411c763ba-64-1741116380-1741083980'
+        name: 'Arena Sport 4',
+        url: 'https://mob.webtvstream.bhtelecom.ba/hls6/arena4.mpd?n=browsernull',
+        keys: {
+            'c18b6aa739be4c0b774605fcfb5d6b68': 'e41c3a6f7532b2e3a828d9580124c89d'
+        }
     }
 };
 
@@ -336,11 +334,35 @@ async function setupShakaPlayer(videoElement, stream) {
     showLoadingSpinner();
     shaka.polyfill.installAll();
     player = new shaka.Player(videoElement);
-    player.addEventListener('error', onErrorEvent);
+
+    // Custom error handler to trigger fallback on any Shaka error.
+    const shakaErrorHandler = async (event) => {
+        const error = event.detail;
+        console.error("Shaka error event:", error);
+        if (stream.fallbackUrl && !stream.fallbackAttempted) {
+            stream.fallbackAttempted = true;
+            console.log("Fallback triggered via error event. Switching to HLS fallback URL:", stream.fallbackUrl);
+            player.removeEventListener('error', shakaErrorHandler);
+            await destroyPlayers();
+            const fallbackStream = { ...stream, url: stream.fallbackUrl };
+            delete fallbackStream.keys; // Remove DRM keys so HLS logic is used.
+            await setupHlsPlayer(videoElement, fallbackStream);
+        } else {
+            onErrorEvent({ detail: error });
+        }
+    };
+    player.addEventListener('error', shakaErrorHandler);
     player.configure({ drm: { clearKeys: stream.keys } });
 
+    // Create a promise that rejects if load doesn't finish in time.
+    const loadPromise = player.load(stream.url);
+    const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("Shaka load timed out")), 10000); // 10 seconds timeout
+    });
+
     try {
-        await player.load(stream.url);
+        // Wait for either the load to succeed or the timeout.
+        await Promise.race([loadPromise, timeoutPromise]);
         populateQualityOptionsShaka();
         clearNotification();
         hideLoadingSpinner();
@@ -349,14 +371,25 @@ async function setupShakaPlayer(videoElement, stream) {
             updatePlayPauseButton();
         }
     } catch (error) {
-        onErrorEvent({ detail: error });
+        console.error("Error loading DRM stream with Shaka:", error);
+        // If an error occurs (or timeout fires) and fallback is available, use it.
+        if (stream.fallbackUrl && !stream.fallbackAttempted) {
+            stream.fallbackAttempted = true;
+            console.log("Fallback triggered in catch block. Switching to HLS fallback URL:", stream.fallbackUrl);
+            await destroyPlayers();
+            const fallbackStream = { ...stream, url: stream.fallbackUrl };
+            delete fallbackStream.keys;
+            await setupHlsPlayer(videoElement, fallbackStream);
+        } else {
+            onErrorEvent({ detail: error });
+        }
     }
 }
 
 async function setupHlsPlayer(videoElement, stream) {
     showLoadingSpinner();
     if (Hls.isSupported()) {
-        const hls = new Hls();
+        let hls = new Hls();
         window.hls = hls;
         hls.attachMedia(videoElement);
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
@@ -373,7 +406,30 @@ async function setupHlsPlayer(videoElement, stream) {
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
             console.error('HLS.js error:', data);
-            showNotification('An error occurred while loading the video. Please try again.');
+            // Attempt fallback on any error (or adjust this check as needed)
+            if (stream.fallbackUrl && !stream.fallbackAttempted) {
+                stream.fallbackAttempted = true;
+                console.log("Attempting HLS fallback URL:", stream.fallbackUrl);
+                // Destroy current instance and create a new one with the fallback URL
+                hls.destroy();
+                let newHls = new Hls();
+                window.hls = newHls;
+                newHls.attachMedia(videoElement);
+                newHls.on(Hls.Events.MEDIA_ATTACHED, () => {
+                    newHls.loadSource(stream.fallbackUrl);
+                    newHls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+                        populateQualityOptionsHls(data.levels);
+                        clearNotification();
+                        hideLoadingSpinner();
+                        if (document.getElementById('autoStart').checked) {
+                            videoElement.play();
+                            updatePlayPauseButton();
+                        }
+                    });
+                });
+            } else {
+                showNotification('An error occurred while loading the video. Please try again.');
+            }
         });
     } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
         videoElement.src = stream.url;
