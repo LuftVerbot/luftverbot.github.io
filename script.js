@@ -20,10 +20,10 @@ const streams = {
     },
     stream3: {
         name: 'Polsat Sport 1',
-        url: 'https://cdn-s-lb2.pluscdn.pl/ch/1456452/129/dash/ffe2048f/live.mpd',
+        url: 'https://r.dcs.redcdn.pl/livedash/play/playtv/indigo/live/polsat_sport/live.livx?indexMode&futc',
         fallbackUrl: 'https://love2live.wideiptv.top/POLSATSPORTPL/index.fmp4.m3u8?token=006a72085f84663d7d80fa280a30eada18da4d83-e5f37b866fc458abcd046194b641f462-1741387866-1741377066',
         keys: {
-            '590abbe92e6e470a9e355d58ec910709': '0af2b5f2450474207f6761adc9dc635e'
+            '9dd4a81698d4525a3c3dccf9c1860a7c': 'dd48335b7cb0b65a45a8766d725b3b6f'
         }
     },
     stream4: {
