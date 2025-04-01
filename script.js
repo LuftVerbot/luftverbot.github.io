@@ -113,11 +113,10 @@ const streams = {
     },
     stream15: {
         name: 'Canal+ Sport 2 HD',
-        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport2HD/hd2-dashdrm02/CplusSport2HD.mpd',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport2NEPL/hd2-dashdrm02/CplusSport2NEPL.mpd',
         keys: {
-            '4f7fa9f0250a43cea8aebd8167f1fc81': 'f6bbc783b0e7a46a147e673a4347730a',
-            '89787fecb0ac43ab86aa356054e2a183': 'f0153c6dc5c55c5f23fcdeed8241d5e4',
-            'f5c080517f6c4366b1930315a6aa70e7': '581eba7045254d1de036557789932a05'
+            '073741e9e2a14dfe84ece6fb0ee86dbf': '98cc50e6b8b38c2a4ce55c55b6d5b464',
+            '3b45f4b43e58446a87d3ae2439490e97': '1ad4aa72e68dd885a351b8ede099acf4'
         }
     },
     stream16: {
@@ -252,15 +251,27 @@ const streams = {
         }
     },
     stream33: {
-        name: 'Arena Sport 4',
-        url: 'https://mob.webtvstream.bhtelecom.ba/hls6/arena4.mpd?n=browsernull',
+        name: 'Canal+ Sport 5 HD',
+        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport5/hd2-dashdrm02/CplusSport5.mpd',
         keys: {
-            'c18b6aa739be4c0b774605fcfb5d6b68': 'e41c3a6f7532b2e3a828d9580124c89d'
+            '4cea0821d1824cafa0635743a6d97778': '924faa02e646007d6f84af2939792d85',
+            'e5cd5fa487c941f08dc227b6b7d2ba34': '86acbf7a6443072a3df2619ed38d5729',
+            'd8f713ce3f9443f7bdd07160d181d535': '54ef8a5499686d0c88be6ef84fc4267e'
         }
     },
     stream34: {
-        name: 'Arena Sport 4',
-        url: 'https://ca8s9.pricesaskeloadsc.com:443/global/tnt_2_gb/index.m3u8?token=ae9d32a78b3abfede6b6cb57857416e419dcea00-47-1741405064-1741372664',
+        name: 'TSN 1',
+        url: 'https://live-cito.9c9media.ca/f2ca3f90e91525b7d72012084085c9e35ac9faa51724957469496/f/tsn1/manifest.mpd',
+        keys: {
+            '8df41512092240d38550e83dc05e157e': 'f29f106ec9f58b41c7c8391b64f3bb25'
+        }
+    },
+    stream35: {
+        name: 'TSN 3',
+        url: 'https://live-cito.9c9media.ca/4ccae8216e3a581e1088eeb48416282fa95299001725016468668/f/tsn3/manifest.mpd',
+        keys: {
+            '473177ea3d394060a0d0c266521ffd68': 'cb6366270ecf03b7b80aae491ef9d618'
+        }
     }
 };
 
