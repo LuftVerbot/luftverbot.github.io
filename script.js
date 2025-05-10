@@ -56,7 +56,6 @@ const streams = {
     stream7: {
         name: 'Polsat Sport Premium 1 Super HD',
         url: 'https://r.dcs.redcdn.pl/livedash/play/playtv/indigo/live/polsat_sport_premium_1/live.livx?indexMode&futc',
-        fallbackUrl: 'https://love2live.wideiptv.top/PolsatSportPremium1/index.fmp4.m3u8?token=6f48eaa909961cae0029937a747a0b12b681e94f-adb6432240cf23322f6cc2602884cbba-1741387445-1741376645',
         keys: {
             '500a020efaa5cf0038480b530e8b875d': '3e7a2e3f11473d24303e838fa072a5a4'
         }
