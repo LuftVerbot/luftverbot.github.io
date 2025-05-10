@@ -7,6 +7,7 @@ const streams = {
     stream1: {
         name: 'Eurosport 1',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1456336/126/dash/d6c12d19/live.mpd',
+        fallbackUrl: 'https://windnew.newkso.ru/wind/premium57/mono.m3u8',
         keys: {
             'e87994b160bd48b5ac2f608ef5dc0f09': '26840f913d91ed7e355a8cc18b99adef'
         }
@@ -14,6 +15,7 @@ const streams = {
     stream2: {
         name: 'Eurosport 2',
         url: 'https://lb2-e2-31.pluscdn.pl/ch/1455824/109/dash/8792e496/live.mpd',
+        fallbackUrl: 'https://windnew.newkso.ru/wind/premium58/mono.m3u8',
         keys: {
             '51ab61e7bc85492a9ff91bb55f101709': '59acf98d228bddef6443da0b5b0669a2'
         }
@@ -21,7 +23,7 @@ const streams = {
     stream3: {
         name: 'Polsat Sport 1',
         url: 'https://r.dcs.redcdn.pl/livedash/play/playtv/indigo/live/polsat_sport/live.livx?indexMode&futc',
-        fallbackUrl: 'https://love2live.wideiptv.top/POLSATSPORTPL/index.fmp4.m3u8?token=006a72085f84663d7d80fa280a30eada18da4d83-e5f37b866fc458abcd046194b641f462-1741387866-1741377066',
+        fallbackUrl: 'https://xyzdddd.mizhls.ru/lb/premium50/index.m3u8',
         keys: {
             '9dd4a81698d4525a3c3dccf9c1860a7c': 'dd48335b7cb0b65a45a8766d725b3b6f'
         }
@@ -29,7 +31,7 @@ const streams = {
     stream4: {
         name: 'Polsat Sport 2',
         url: 'https://cdn-s-lb2.pluscdn.pl/ch/1455745/96/dash/3880d03f/live.mpd',
-        fallbackUrl: 'https://love2live.wideiptv.top/POLSATSPORTEXTRA/index.fmp4.m3u8?token=b7e5a10ff3ff8e4262e3a37ae4f8b24a5e8e772a-4575f2cbe1de3818cf5ef8c9b18cac02-1741387914-1741377114',
+        fallbackUrl: 'https://windnew.newkso.ru/wind/premium50/mono.m3u8',
         keys: {
             '3201accccbe9455cbc28dcd4bcdf1509': 'f4d9a50f98ea833d2e5120d83bd59a23'
         }
@@ -53,10 +55,10 @@ const streams = {
     },
     stream7: {
         name: 'Polsat Sport Premium 1 Super HD',
-        url: 'https://cdn-s-lb2.pluscdn.pl/ch/1459449/266/dash/edb3b20d/live.mpd',
+        url: 'https://r.dcs.redcdn.pl/livedash/play/playtv/indigo/live/polsat_sport_premium_1/live.livx?indexMode&futc',
         fallbackUrl: 'https://love2live.wideiptv.top/PolsatSportPremium1/index.fmp4.m3u8?token=6f48eaa909961cae0029937a747a0b12b681e94f-adb6432240cf23322f6cc2602884cbba-1741387445-1741376645',
         keys: {
-            '8eb4a9586edf4b0cade4b5725fd55209': '54caa4e2142cf691af9bb6028545afc6'
+            '500a020efaa5cf0038480b530e8b875d': '3e7a2e3f11473d24303e838fa072a5a4'
         }
     },
     stream8: {
@@ -128,17 +130,16 @@ const streams = {
     },
     stream17: {
         name: 'Eleven Sports 2',
-        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/11Sports2/hd2-dashdrm02/11Sports2.mpd',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11_sports/live2.isml/playlist.mpd?indexMode=&dummyfile=&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjQ0NDgzOCIsIkFQUExJQ0FUSU9OIjoiRk8iLCJleHAiOjE3NDQ2OTU4MzYsImlhdCI6MTc0NDY1MjYzNn0.3xK8a9UmNdFV1LaTHoz2bWlrm9UFZuT9-GpIJNqhA0E&dvr=7200000',
+        fallbackUrl: 'https://windnew.newkso.ru/wind/premium72/mono.m3u8',
         keys: {
-            '8331b6fdb5d14cdb82ff4895b997704c': '2efbc6cd610345be9401fafd818c4dc4',
-            '71be6f968ab54a8bb847b58bbc7c628e': '3dd907fffdbffd7ec01b4025ad97ec6a',
-            '4e1df327c661472f96319dd7e98bf5bd': '36263f85c3c25a131f47cee90924e1f3',
-            '147736fc9f244d0ca8bc3f2169acec8e': '3d1c1f5044392378b5c05f29899920a1'
+            'f19a390cc9c5f717fe8def88b9e1923b': '27e54c03e1a01be61abeb55aa9ca5474'
         }
     },
     stream18: {
         name: 'Eleven Sports 3',
         url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/11Sports3/hd2-dashdrm02/11Sports3.mpd',
+        fallbackUrl: 'https://ddy6new.newkso.ru/ddy6/premium428/mono.m3u8',
         keys: {
             '55b19ea29fdd4c96825531f96a504df1': 'a6ec613e0eadfb923ff816e4c8c68a4a',
             'ce125d7af48a45799d671941125ed55e': '973599517f31f3b4327fa975f549ed2b',
@@ -171,11 +172,9 @@ const streams = {
     },
     stream22: {
         name: 'Canal+ Sport 3 HD',
-        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport3HD/hd2-dashdrm02/CplusSport3HD.mpd',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_sport_3/live2.isml/playlist.mpd?indexMode=&dummyfile=&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjQ0NDgzOCIsIkFQUExJQ0FUSU9OIjoiRk8iLCJleHAiOjE3NDQ2OTU4MDcsImlhdCI6MTc0NDY1MjYwN30.T8gSwzMRbNI6ZE4vXyXWcpBfyV6ur2FTf9QpQeKBk0E&dvr=7200000',
         keys: {
-            '274cafc63e854f9ca14acbc49af103a0': '4dc63ff74dc5415f3c0c63b62f8fedaa',
-            'b4274e5bdb7e4370bb87af609a74a64e': '4763cbd2fa26f4de8bead22db09b0f46',
-            '009d1ea463574791a88e5d008f7ab15c': 'fa4812bd0d608c2f8bfeb02fb213320d'
+            '56ade1e2c2455a8b368ef0960152e3eb': 'd2b439ebafa06d036bf708ab79ed2a28'
         }
     },
     stream23: {
@@ -188,6 +187,7 @@ const streams = {
     stream24: {
         name: 'Eleven Sports 1',
         url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/11Sports1/hd2-dashdrm02/11Sports1.mpd',
+        fallbackUrl: 'https://windnew.newkso.ru/wind/premium71/mono.m3u8',
         keys: {
             '9d042fa273964e24a9109e23f4e313cc': '540e3601e1b82192c76c7411ad9c8c8e',
             '014e7cf40d9e490a812964f4aa72449e': '01b8caafb230eb2a07cc965d54ef4441',
@@ -251,26 +251,25 @@ const streams = {
         }
     },
     stream33: {
-        name: 'Canal+ Sport 5 HD',
-        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSport5/hd2-dashdrm02/CplusSport5.mpd',
-        keys: {
-            '4cea0821d1824cafa0635743a6d97778': '924faa02e646007d6f84af2939792d85',
-            'e5cd5fa487c941f08dc227b6b7d2ba34': '86acbf7a6443072a3df2619ed38d5729',
-            'd8f713ce3f9443f7bdd07160d181d535': '54ef8a5499686d0c88be6ef84fc4267e'
-        }
-    },
-    stream34: {
         name: 'TSN 1',
         url: 'https://live-cito.9c9media.ca/f2ca3f90e91525b7d72012084085c9e35ac9faa51724957469496/f/tsn1/manifest.mpd',
         keys: {
             '8df41512092240d38550e83dc05e157e': 'f29f106ec9f58b41c7c8391b64f3bb25'
         }
     },
-    stream35: {
+    stream34: {
         name: 'TSN 3',
         url: 'https://live-cito.9c9media.ca/4ccae8216e3a581e1088eeb48416282fa95299001725016468668/f/tsn3/manifest.mpd',
         keys: {
             '473177ea3d394060a0d0c266521ffd68': 'cb6366270ecf03b7b80aae491ef9d618'
+        }
+    },
+    stream35: {
+        name: 'TEST',
+        url: 'https://dcj-ak-livedazn.akamaized.net/dash/dazn-linear-511/stream.mpd',
+        fallbackUrl: 'https://windnew.newkso.ru/wind/premium50/mono.m3u8',
+        keys: {
+            'cfb5e2b73bef4f3c878f25ab86a7451f': '0d6712bf2a84edcc93d001a9613f6fec'
         }
     }
 };
