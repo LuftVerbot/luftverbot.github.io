@@ -46,7 +46,7 @@ const streams = {
     },
     stream6: {
         name: 'TVP Sport',
-        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/TVPSport/hd2-dashdrm02/TVPSport.mpd',
+        url: 'https://estreams.tv.nej.cz/dash/CH_TVP_SPORT_Portable.ism/playlist.mpd',
         keys: {
             '95620bdd974041409d4674ab629e22d4': 'c6c226ca1689f528a6f91e86da618f64',
             '181c091002d04c5481c3faab18752843': 'b081b6169351e0f4bfc40212dfeeed10',
@@ -155,11 +155,9 @@ const streams = {
     },
     stream20: {
         name: 'Canal+ Sport HD',
-        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/CplusSportHD/hd2-dashdrm02/CplusSportHD.mpd',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_sport/live2.isml/playlist.mpd?indexMode=&dummyfile=&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjQ0NDgzOCIsIkFQUExJQ0FUSU9OIjoiRk8iLCJleHAiOjE3NDY5MDA3ODQsImlhdCI6MTc0Njg1NzU4NH0.Sj8-3xxDiiMqvtc8yulV_1F44ztFao0-0Xy4om-6RAA&dvr=7200000',
         keys: {
-            '4e942b1dad92436baad0c6a6901f6d13': '5adefdb3f4edd5ceee23d37c10c37e5c',
-            '5fb92575d7da45219e9a88646cd3e243': '31d1f1df9c246eb734de1be0f6bf6acf',
-            '7cd69bed1cc54d83bd7f988f622c1157': '332e0a856cdfcd7a1d6da6dcf84633a7'
+            'b18527331596f1b4d71d0a31d3db876f': '0012e4418e9b788c91dc50dbfce79802'
         }
     },
     stream21: {
@@ -171,9 +169,9 @@ const streams = {
     },
     stream22: {
         name: 'Canal+ Sport 3 HD',
-        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_sport_3/live2.isml/playlist.mpd?indexMode=&dummyfile=&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjQ0NDgzOCIsIkFQUExJQ0FUSU9OIjoiRk8iLCJleHAiOjE3NDQ2OTU4MDcsImlhdCI6MTc0NDY1MjYwN30.T8gSwzMRbNI6ZE4vXyXWcpBfyV6ur2FTf9QpQeKBk0E&dvr=7200000',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/canal_plus_sport_3/live2.isml/playlist.mpd?indexMode=&dummyfile=&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjQ0NDgzOCIsIkFQUExJQ0FUSU9OIjoiRk8iLCJleHAiOjE3NDY5MDAwNjUsImlhdCI6MTc0Njg1Njg2NX0.CfkMtFdcZ0KQD7mObNX_-NVQ1NaCDz7vJFL_70tyVZ4&dvr=7200000',
         keys: {
-            '56ade1e2c2455a8b368ef0960152e3eb': 'd2b439ebafa06d036bf708ab79ed2a28'
+            'ec1e0c6a78a86b0e7fe9e227fa95cdca': '953acb21086235adb744781bed74f295'
         }
     },
     stream23: {
@@ -185,12 +183,9 @@ const streams = {
     },
     stream24: {
         name: 'Eleven Sports 1',
-        url: 'https://r.dcs.redcdn.pl/webcache/canalplus2/live/store01/11Sports1/hd2-dashdrm02/11Sports1.mpd',
-        fallbackUrl: 'https://windnew.newkso.ru/wind/premium71/mono.m3u8',
+        url: 'https://r.dcs.redcdn.pl/livedash/o2/tvnplayerncp/live/11/live2.isml/playlist.mpd?indexMode=&dummyfile=&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjQ0NDgzOCIsIkFQUExJQ0FUSU9OIjoiRk8iLCJleHAiOjE3NDY5MDA0MzMsImlhdCI6MTc0Njg1NzIzM30.l27q6HbPwraEnYBpRCz5NzIxyQN4RlMwWpxNevThUSs&dvr=7200000',
         keys: {
-            '9d042fa273964e24a9109e23f4e313cc': '540e3601e1b82192c76c7411ad9c8c8e',
-            '014e7cf40d9e490a812964f4aa72449e': '01b8caafb230eb2a07cc965d54ef4441',
-            'cf513b83f32d4234a7b4982ae9ca3161': '68293d1b7143588339baeaedbe3939d9'
+            '5459b578ff0942a848627ab4345e3b6d': 'b2cf0928548f26e4512d901f2945b86a'
         }
     },
     stream25: {
